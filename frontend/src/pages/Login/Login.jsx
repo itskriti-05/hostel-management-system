@@ -1,9 +1,11 @@
 import React from "react";
+import axios from "axios";
 import { useState } from "react";
 import { Mail, Lock, Eye, EyeOff, Home } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import api from "../../api/axios";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -17,17 +19,9 @@ const Login = () => {
     setError("");
 
     try {
-      const res = await fetch("http://localhost:8080/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+      const res = await api.post("/api/auth/login", formData )
 
-      const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data.message || "Login failed");
-      }
+      const data = res.data;
 
       login(data);
 
@@ -39,7 +33,9 @@ const Login = () => {
         setError("Unauthorized role");
       }
     } catch (err) {
-      setError(err.message);
+      setError(
+         err.response?.data?.message || "Login failed"
+      );
     }
   };
 

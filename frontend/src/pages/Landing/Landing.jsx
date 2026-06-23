@@ -72,7 +72,7 @@ export default function Landing() {
 
           <div className="space-y-10 md:space-y-12">
             <FeatureRow
-              img="/studentmatch.png"
+              img="/roommatematch.png"
               title="Intelligent Roommate Matching"
               text="Our advanced algorithm analyzes your lifestyle preferences, study habits, and personality traits to connect you with the most compatible roommates."
               points={["Personality Analysis", "Smart Matching"]}

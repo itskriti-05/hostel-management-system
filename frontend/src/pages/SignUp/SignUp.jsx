@@ -1,10 +1,41 @@
 import React from 'react'
+import axios from 'axios';
 import { useState } from "react";
 import { User, Mail, Lock, Phone, Eye, EyeOff, GraduationCap } from "lucide-react";
-import { Link } from 'react-router-dom';
+import { Link , useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
+import api from '../../api/axios';
+
 
 const SignUp = () => {
-      const [showPassword, setShowPassword] = useState(false);
+  const navigate = useNavigate();
+const { login } = useAuth();
+const [error, setError] = useState("");
+const [showPassword, setShowPassword] = useState(false);
+const [formData, setFormData] = useState({
+  name: "",
+  email: "",
+  password: "",
+  contactNo: "",
+});
+
+
+const handleSubmit = async(e)=>{
+   e.preventDefault();
+  setError("");
+  try{
+    const res = await api.post("/api/auth/register" ,
+      formData
+    )
+      const data = await res.data;
+      login(data);
+      navigate("/student-dashboard");
+
+  }catch(err){
+       setError(err.response?.data?.message || "SignUp failed");
+  }
+}
+    
   return (
      <div className="min-h-screen flex bg-gradient-to-br from-[#a8c5e0] via-[#5a7fa0] to-[#1B3C53]">
       {/* Left decorative panel - hidden on mobile */}
@@ -33,7 +64,7 @@ const SignUp = () => {
             Get started with your hostel dashboard
           </p>
 
-          <form className="space-y-5">
+          <form onSubmit={handleSubmit} className="space-y-5">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1.5">
                 Full Name
@@ -41,6 +72,8 @@ const SignUp = () => {
               <div className="relative">
                 <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4.5 h-4.5 text-gray-400" />
                 <input
+                value={formData.name}
+                onChange={(e)=> setFormData({...formData,name : e.target.value})}
                   type="text"
                   placeholder="John Doe"
                   className="w-full pl-11 pr-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1B3C53] focus:border-transparent transition"
@@ -55,6 +88,8 @@ const SignUp = () => {
               <div className="relative">
                 <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4.5 h-4.5 text-gray-400" />
                 <input
+                 value={formData.email}
+                onChange={(e)=> setFormData({...formData,email : e.target.value})}
                   type="email"
                   placeholder="you@example.com"
                   className="w-full pl-11 pr-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1B3C53] focus:border-transparent transition"
@@ -69,10 +104,13 @@ const SignUp = () => {
               <div className="relative">
                 <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4.5 h-4.5 text-gray-400" />
                 <input
+                 value={formData.password}
+                onChange={(e)=> setFormData({...formData,password : e.target.value})}
                   type={showPassword ? "text" : "password"}
                   placeholder="Create a strong password"
                   className="w-full pl-11 pr-11 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1B3C53] focus:border-transparent transition"
                 />
+
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
@@ -90,12 +128,16 @@ const SignUp = () => {
               <div className="relative">
                 <Phone className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4.5 h-4.5 text-gray-400" />
                 <input
+                 value={formData.contactNo}
+                onChange={(e)=> setFormData({...formData,contactNo : e.target.value})}
                   type="tel"
                   placeholder="9999999999"
                   className="w-full pl-11 pr-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#1B3C53] focus:border-transparent transition"
                 />
               </div>
             </div>
+
+            {error && <p className="text-red-500 text-sm">{error}</p>}
 
             <button
               type="submit"

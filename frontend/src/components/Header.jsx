@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 export default function Header() {
   return (
     <header className="fixed top-0 left-0 w-full z-50 bg-white/90 backdrop-blur-sm shadow-sm">
-      <div className="max-w-7xl mx-auto px-6 md:px-10 h-16 flex items-center justify-between">
+       <div className="max-w-7xl mx-auto px-6 md:px-10 h-16 flex items-center justify-between">
         {/* Logo */}
         <Link to="/" className="text-xl font-bold text-[#1B3C53]">
           Hostel<span className="text-blue-500">Ezz</span>
