@@ -44,7 +44,8 @@ router.get("/", auth, async (req, res) => {
   try {
     const preference = await Preference.findOne({ userId: req.user.id });
     if (!preference) {
-      return res.status(404).json({ message: "No preferences found" });
+      // return res.status(404).json({ message: "No preferences found" });
+       return res.status(200).json(null);
     }
     res.json(preference);
   } catch (error) {

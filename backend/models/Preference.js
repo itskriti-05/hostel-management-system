@@ -12,7 +12,7 @@ const preferenceSchema = new mongoose.Schema(
     cleanlinessLevel: { type: String, enum: ["HIGH", "MEDIUM", "LOW"] },
     noisePreference: { type: String, enum: ["QUIET", "OKAY", "NOISY"] },
     studyPreference: { type: String, enum: ["ALONE", "GROUP", "FLEXIBLE"] },
-    allergy: { type: String, enum: ["DIRT", "PERFUME", "OTHERS"] },
+    allergy: { type: String, enum: ["NONE","DIRT", "PERFUME", "OTHERS"] },
     roomTempPreference: { type: String, enum: ["CHILLED", "COOL", "NORMAL", "FLEXIBLE"] },
     roomType: { type: String, enum: ["ONE", "TWO", "THREE", "FOUR", "FIVE"] },
   },
