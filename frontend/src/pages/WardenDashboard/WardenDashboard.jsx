@@ -1,9 +1,24 @@
-import React from 'react'
+import { Outlet } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
+import { User } from "lucide-react";
+import WardenSidebar from "./WardenSidebar";
 
-const WardenDashboard = () => {
+export default function WardenDashboard() {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+
   return (
-    <div>WardenDashboard</div>
-  )
-}
+    <div className="flex min-h-screen bg-[#f8f9ff] dark:bg-[#0F1F2E] transition-colors duration-300">
+      <WardenSidebar />
+      <div className="flex-1 ml-56 flex flex-col">
+        {/* Header */}
 
-export default WardenDashboard
+        {/* Content */}
+        <main className="flex-1 overflow-y-auto">
+          <Outlet />
+        </main>
+      </div>
+    </div>
+  );
+}

@@ -23,7 +23,7 @@ import {
 } from "lucide-react";
 
 const SCHEDULE_OPTIONS = [
-  { value: "MORNING_PERSON", lable: "Morning Person", icon: Sun },
+  { value: "MORNING_PERSON", label: "Morning Person", icon: Sun },
   { value: "NIGHT_PERSON", label: "Night Person", icon: Moon },
   { value: "FLEXIBLE", label: "Flexible", icon: Repeat },
 ];
@@ -432,13 +432,13 @@ const Preferences = () => {
                 onClick={() => {
                   setShowForm(false);
                   setFormError("");
-                    setScheduleType("");
-  setCleanlinessLevel("");
-  setNoisePreference("");
-  setStudyPreference("");
-  setAllergy("");
-  setRoomTempPreference("");
-  setRoomType("");
+                  setScheduleType("");
+                  setCleanlinessLevel("");
+                  setNoisePreference("");
+                  setStudyPreference("");
+                  setAllergy("");
+                  setRoomTempPreference("");
+                  setRoomType("");
                 }}
                 className="px-6 py-2.5 rounded-xl border border-gray-300 text-gray-700 bg-white hover:bg-gray-100 dark:bg-[#1A2F42] dark:border-gray-600 dark:text-white dark:hover:bg-[#24384B] transition-colors mr-2"
               >
