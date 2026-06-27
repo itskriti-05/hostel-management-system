@@ -12,8 +12,6 @@ export default function WardenDashboard() {
     <div className="flex min-h-screen bg-[#f8f9ff] dark:bg-[#0F1F2E] transition-colors duration-300">
       <WardenSidebar />
       <div className="flex-1 ml-56 flex flex-col">
-        {/* Header */}
-
         {/* Content */}
         <main className="flex-1 overflow-y-auto">
           <Outlet />

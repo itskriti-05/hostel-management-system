@@ -27,10 +27,6 @@ const WardenSidebar = () => {
      logout();
     navigate("/login");
   }
-
-
-
-
   return (
     <aside className="fixed left-0 top-0 h-screen w-56 bg-white dark:bg-[#1A2F42] flex flex-col z-40 border-r border-gray-100 dark:border-gray-700">
       {/* Logo */}
