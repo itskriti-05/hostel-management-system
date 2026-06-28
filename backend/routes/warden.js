@@ -78,20 +78,23 @@ router.get("/all-students", auth, async (req, res) => {
   try {
     const students = await User.find({ role: "ROLE_STUDENT" }).select("-password");
 
-    const studentsWithProfiles = await Promise.all(
-      students.map(async (student) => {
-        const profile = await StudentProfile.findOne({ userId: student._id });
-        return {
-          id: student._id,
-          name: student.name,
-          email: student.email,
-          avatar: "👤",
-          room: profile?.roomId || "Not Assigned",
-          date: student.createdAt.toISOString().split("T")[0],
-          status: profile?.profileComplete ? "Active" : "Pending",
-        };
-      })
-    );
+   const studentsWithProfiles = await Promise.all(
+  students.map(async (student) => {
+    const profile = await StudentProfile.findOne({ userId: student._id });
+    return {
+      id: student._id,
+      name: student.name,
+      email: student.email,
+      avatar: "👤",
+      room: profile?.roomId || "Not Assigned",
+      date: student.createdAt.toISOString().split("T")[0],
+      status: profile?.profileComplete ? "Active" : "Pending",
+      gender: profile?.gender || null,
+      branch: profile?.branch || null,
+      year: profile?.year || null,
+    };
+  })
+);
 
     res.json(studentsWithProfiles);
   } catch (error) {
