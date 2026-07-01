@@ -14,7 +14,7 @@ const preferenceSchema = new mongoose.Schema(
     studyPreference: { type: String, enum: ["ALONE", "GROUP", "FLEXIBLE"] },
     allergy: { type: String, enum: ["NONE","DIRT", "PERFUME", "OTHERS"] },
     roomTempPreference: { type: String, enum: ["CHILLED", "COOL", "NORMAL", "FLEXIBLE"] },
-    roomType: { type: String, enum: ["ONE", "TWO", "THREE", "FOUR", "FIVE"] },
+    roomType: { type: String, enum: [ "TWO", "THREE", "FOUR", "FIVE"] },
   },
   { timestamps: true }
 );

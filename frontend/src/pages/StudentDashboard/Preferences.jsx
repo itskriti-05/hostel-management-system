@@ -60,7 +60,6 @@ const TEMP_OPTIONS = [
 ];
 
 const ROOM_TYPE_OPTIONS = [
-  { value: "ONE", label: "1" },
   { value: "TWO", label: "2" },
   { value: "THREE", label: "3" },
   { value: "FOUR", label: "4" },
@@ -185,7 +184,6 @@ const TEMP_LABELS = {
   FLEXIBLE: { title: "Flexible", desc: "Adapts to any room temperature." },
 };
 const ROOM_TYPE_LABELS = {
-  ONE: { title: "Single Room", desc: "Prefers a private room." },
   TWO: { title: "Double Room", desc: "Shared room with one roommate." },
   THREE: { title: "Triple Room", desc: "Shared room with two roommates." },
   FOUR: { title: "Quad Room", desc: "Shared room with three roommates." },
