@@ -26,6 +26,7 @@ app.use("/api/menu", require("./routes/menu"));
 app.use("/api/warden/notifications", require("./routes/notification"));
 app.use("/api/warden", require("./routes/warden"));
 app.use("/api/email", require("./routes/email"));
+app.use("/api/matching", require("./routes/matching"));
 
 app.get("/", (req, res) => res.send("HostelEzz API running"));
 
