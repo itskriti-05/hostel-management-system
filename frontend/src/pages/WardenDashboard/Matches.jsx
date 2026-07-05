@@ -318,7 +318,7 @@ export default function Matches() {
         </div>
       )}
 
-      {/* Add Student Modal */}
+      {/*Student Modal */}
       {showAddModal && (
         <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div className="bg-white dark:bg-[#1A2F42] rounded-2xl shadow-xl w-full max-w-sm p-6">

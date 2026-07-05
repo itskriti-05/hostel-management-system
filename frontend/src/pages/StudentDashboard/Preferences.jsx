@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import api from "../../api/axios";
 import PageHeader from "../../components/PageHeader";
+import EmptyState from "../../components/EmptyState";
 import {
   Sun,
   Moon,
@@ -274,34 +275,13 @@ const Preferences = () => {
   // Empty state only for now
   if (!preference && !showForm) {
     return (
-      <div className="min-h-screen bg-[#f8f9ff] dark:bg-[#0F1F2E] p-6">
-        <PageHeader title="Preferences" />
-
-        <div
-          className="flex items-center justify-center"
-          style={{ minHeight: "60vh" }}
-        >
-          <div className="text-center max-w-md">
-            <div className="w-40 h-40 mx-auto mb-6 rounded-2xl overflow-hidden bg-[#0c1f33] flex items-center justify-center">
-              <BedDouble className="w-16 h-16 text-blue-300" />
-            </div>
-            <h2 className="text-xl font-bold text-[#083067] dark:text-white mb-2">
-              Room Preferences
-            </h2>
-            <p className="text-sm text-gray-400 mb-6 leading-relaxed">
-              You haven't filled your room preferences yet. Complete the
-              preference form so we can find the most compatible roommate for
-              you.
-            </p>
-            <button
-              onClick={() => setShowForm(true)}
-              className="px-6 py-3 bg-[#083067] hover:bg-[#0a3d80] text-white text-sm font-semibold rounded-xl transition-colors"
-            >
-              Add Preferences
-            </button>
-          </div>
-        </div>
-      </div>
+       <EmptyState
+    title="Room Preferences"
+    icon={BedDouble}
+    description="You haven't filled your room preferences yet. Complete the preference form so we can find the most compatible roommate for you."
+    primaryAction={() => setShowForm(true)}
+    primaryLabel="Add Preferences"
+  />
     );
   }
 
@@ -438,7 +418,7 @@ const Preferences = () => {
                   setRoomTempPreference("");
                   setRoomType("");
                 }}
-                className="px-6 py-2.5 rounded-xl border border-gray-300 text-gray-700 bg-white hover:bg-gray-100 dark:bg-[#1A2F42] dark:border-gray-600 dark:text-white dark:hover:bg-[#24384B] transition-colors mr-2"
+                className="px-8 py-2.5 rounded-xl border border-gray-300 text-gray-700 bg-white hover:bg-gray-100 dark:bg-[#1A2F42] dark:border-gray-600 dark:text-white dark:hover:bg-[#24384B] transition-colors mr-2 font-semibold"
               >
                 Cancel
               </button>

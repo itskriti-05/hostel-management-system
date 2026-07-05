@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
 import api from "../../api/axios";
 import PageHeader from "../../components/PageHeader";
+import EmptyState from "../../components/EmptyState";
 import {
   User, Mail, Phone, GraduationCap, Building2,
   Users, Save, Pencil, CheckCircle, Lock
@@ -167,32 +168,13 @@ export default function Profile() {
   // ── Incomplete state ───────────────────────────────────────────
   if (!profile?.profileComplete && !showForm) {
     return (
-      <div className="min-h-screen bg-[#f8f9ff] dark:bg-[#0F1F2E] p-6">
-        <PageHeader title="Profile" />
-        <div className="flex items-center justify-center" style={{ minHeight: "65vh" }}>
-          <div className="bg-white dark:bg-[#1A2F42] rounded-2xl shadow-sm p-10 max-w-md w-full text-center">
-            <div className="w-40 h-40 mx-auto mb-6 rounded-2xl overflow-hidden bg-[#083067] flex items-center justify-center">
-              <User className="w-20 h-20 text-blue-200" strokeWidth={1} />
-            </div>
-            <h2 className="text-xl font-bold text-[#083067] dark:text-white mb-2">
-              Complete Your Profile
-            </h2>
-            <p className="text-sm text-gray-400 mb-2 leading-relaxed">
-              Your student profile is incomplete. Please complete your profile so
-              hostel information and roommate matching can work correctly.
-            </p>
-            <p className="text-[10px] text-gray-300 dark:text-gray-500 mb-6 tracking-wider uppercase">
-              Step 1 of 4: Personal Details
-            </p>
-            <button
-              onClick={() => setShowForm(true)}
-              className="px-8 py-3 bg-[#083067] hover:bg-[#0a3d80] text-white text-sm font-semibold rounded-xl transition-colors inline-flex items-center gap-2"
-            >
-              Complete Profile →
-            </button>
-          </div>
-        </div>
-      </div>
+       <EmptyState
+    title="Complete Your Profile"
+    icon={User}
+    description="Your student profile is incomplete. Please complete your profile so hostel information and roommate matching can work correctly."
+    primaryAction={() => setShowForm(true)}
+    primaryLabel="Complete Profile"
+  />
     );
   }
 
@@ -333,7 +315,7 @@ export default function Profile() {
             )}
 
             <div className="flex gap-3">
-              {profile?.profileComplete && (
+              {showForm && (
                 <button
                   type="button"
                   onClick={() => { setShowForm(false); setFormError(""); }}

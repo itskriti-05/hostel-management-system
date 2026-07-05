@@ -15,7 +15,7 @@ const navItems = [
   { label: "Profile", icon: User, path: "/student-dashboard/profile" },
 ];
 
-export default function SideBar() {
+export default function SideBar({ className = "" }) {
   const { user, logout } = useAuth();
   const { isDark, toggleTheme } = useTheme();
   const navigate = useNavigate();
@@ -27,7 +27,7 @@ export default function SideBar() {
   };
 
   return (
-    <aside className="fixed left-0 top-0 h-screen w-56 bg-white dark:bg-[#1A2F42] flex flex-col z-40 border-r border-gray-100 dark:border-gray-700">
+    <aside className={`fixed left-0 top-0 h-screen w-56 bg-white dark:bg-[#1A2F42] flex flex-col z-40 border-r border-gray-100 dark:border-gray-700 ${className}`}>
       {/* Logo */}
       <div className="px-5 py-5 border-b border-gray-100 dark:border-gray-700">
         <span className="text-lg font-bold text-[#083067] dark:text-white">
@@ -35,7 +35,7 @@ export default function SideBar() {
         </span>
       </div>
 
-      {/* Profile */}
+  
       <div className="px-5 py-4 border-b border-gray-100 dark:border-gray-700">
         <div className="flex items-center gap-3">
           <div className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-400 to-[#083067] flex items-center justify-center text-white font-bold text-sm flex-shrink-0">
@@ -45,12 +45,12 @@ export default function SideBar() {
             <p className="text-sm font-semibold text-[#083067] dark:text-white truncate">
               {user?.email?.split("@")[0]}
             </p>
-            <p className="text-[10px] text-gray-600 mt-0.5">Student</p>
+            <p className="text-[10px] text-gray-600 dark:text-gray-400 mt-0.5">Student</p>
           </div>
         </div>
       </div>
 
-      {/* Nav */}
+   
       <nav className="flex-1 px-3 py-3 space-y-0.5 overflow-y-auto">
         {navItems.map(({ label, icon: Icon, path }) => {
           const isActive = location.pathname === path;
@@ -71,7 +71,6 @@ export default function SideBar() {
         })}
       </nav>
 
-      {/* Bottom */}
       <div className="px-3 py-3 border-t border-gray-100 dark:border-gray-700 space-y-0.5">
         <button
           onClick={toggleTheme}
