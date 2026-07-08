@@ -4,30 +4,44 @@ import api from "../../api/axios";
 import PageHeader from "../../components/PageHeader";
 import EmptyState from "../../components/EmptyState";
 import {
-  User, Mail, Phone, GraduationCap, Building2,
-  Users, Save, Pencil, CheckCircle, Lock
+  User,
+  Mail,
+  Phone,
+  GraduationCap,
+  Building2,
+  Users,
+  Save,
+  Pencil,
+  CheckCircle,
+  Lock,
 } from "lucide-react";
 
-// ── Toggle group ──────────────────────────────────────────────
 function ToggleGroup({ options, value, onChange }) {
   return (
-    <div className="grid grid-cols-3 gap-3">
+    <div className="grid grid-cols-3 gap-2 sm:gap-3">
       {options.map((opt) => {
         const Icon = opt.icon;
         const selected = value === opt.value;
+
         return (
           <button
             key={opt.value}
             type="button"
             onClick={() => onChange(opt.value)}
-            className={`flex items-center justify-center gap-2 px-4 py-3 rounded-xl border text-sm font-medium transition-colors ${
+            className={`flex items-center justify-center gap-2 rounded-xl border
+            px-2 sm:px-4
+            py-3
+            text-[10px] sm:text-xs sm:text-sm
+            font-medium
+            transition-colors
+            ${
               selected
                 ? "border-[#083067] bg-[#eff4ff] text-[#083067] dark:bg-blue-900/20 dark:border-blue-400 dark:text-white"
                 : "border-gray-200 dark:border-gray-600 text-gray-500 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5"
             }`}
           >
-            {Icon && <Icon className="w-4 h-4" />}
-            {opt.label}
+            <Icon className="w-4 h-4 shrink-0" />
+            <span>{opt.label}</span>
           </button>
         );
       })}
@@ -35,39 +49,44 @@ function ToggleGroup({ options, value, onChange }) {
   );
 }
 
-// ── Info field (view mode) ─────────────────────────────────────
 function InfoField({ label, value }) {
   return (
     <div>
-      <p className="text-[10px] font-semibold text-gray-400 tracking-wider uppercase mb-1">
+      <p className="text-[10px] sm:text-xs font-semibold text-gray-400 tracking-wider uppercase mb-1">
         {label}
       </p>
-      <p className="text-sm font-medium text-[#083067] dark:text-white">
+      <p className="text-base sm:text-sm font-medium text-[#083067] dark:text-white break-words">
         {value || "—"}
       </p>
     </div>
   );
 }
 
-// ── Section header ─────────────────────────────────────────────
 function SectionHeader({ icon: Icon, title }) {
   return (
-    <div className="flex items-center gap-2 mb-4">
-      <div className="w-8 h-8 bg-[#eff4ff] dark:bg-blue-900/20 rounded-lg flex items-center justify-center">
-        <Icon className="w-4 h-4 text-[#083067] dark:text-blue-400" />
+    <div className="flex items-center gap-3 mb-5">
+      <div className="w-10 h-10 rounded-xl bg-[#eff4ff] dark:bg-blue-900/20 flex items-center justify-center flex-shrink-0">
+        <Icon className="w-5 h-5 text-[#083067] dark:text-blue-400" />
       </div>
-      <h3 className="text-sm font-semibold text-[#083067] dark:text-white">
+
+      <h3 className="text-base font-semibold text-[#083067] dark:text-white">
         {title}
       </h3>
     </div>
   );
 }
 
-// ── Input field ────────────────────────────────────────────────
-function InputField({ label, type = "text", value, onChange, placeholder, disabled }) {
+function InputField({
+  label,
+  type = "text",
+  value,
+  onChange,
+  placeholder,
+  disabled,
+}) {
   return (
     <div>
-      <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5">
+      <label className="block text-[10px] sm:text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5">
         {label}
       </label>
       <div className="relative">
@@ -91,7 +110,6 @@ function InputField({ label, type = "text", value, onChange, placeholder, disabl
   );
 }
 
-// ── Main component ─────────────────────────────────────────────
 export default function Profile() {
   const { user } = useAuth();
 
@@ -146,7 +164,11 @@ export default function Profile() {
     setFormError("");
     try {
       const res = await api.put("/api/student/profile", {
-        branch, year: Number(year), gender, hostelType, parentContactNo,
+        branch,
+        year: Number(year),
+        gender,
+        hostelType,
+        parentContactNo,
       });
       setProfile({ ...profile, ...res.data.profile, profileComplete: true });
       setShowForm(false);
@@ -165,32 +187,28 @@ export default function Profile() {
     );
   }
 
-  // ── Incomplete state ───────────────────────────────────────────
   if (!profile?.profileComplete && !showForm) {
     return (
-       <EmptyState
-    title="Complete Your Profile"
-    icon={User}
-    description="Your student profile is incomplete. Please complete your profile so hostel information and roommate matching can work correctly."
-    primaryAction={() => setShowForm(true)}
-    primaryLabel="Complete Profile"
-  />
+      <EmptyState
+        title="Complete Your Profile"
+        icon={User}
+        description="Your student profile is incomplete. Please complete your profile so hostel information and roommate matching can work correctly."
+        primaryAction={() => setShowForm(true)}
+        primaryLabel="Complete Profile"
+      />
     );
   }
 
-  // ── Form state ─────────────────────────────────────────────────
   if (showForm) {
     return (
       <div className="min-h-screen bg-[#f8f9ff] dark:bg-[#0F1F2E] p-6">
-        <PageHeader title="Profile" />
-        <div className="max-w-2xl mx-auto">
+        <PageHeader title="Profile" showBack backTo="/student-dashboard" />
+        <div className="max-w-2xl mx-auto w-full">
           <p className="text-sm text-gray-400 mb-6">
             Update your residential records
           </p>
 
           <form onSubmit={handleSubmit} className="space-y-6">
-
-            {/* Personal Info */}
             <div className="bg-white dark:bg-[#1A2F42] rounded-2xl p-6 shadow-sm">
               <SectionHeader icon={User} title="Personal Info" />
               <div className="space-y-4">
@@ -215,12 +233,11 @@ export default function Profile() {
               </div>
             </div>
 
-            {/* Academic Details */}
             <div className="bg-white dark:bg-[#1A2F42] rounded-2xl p-6 shadow-sm">
               <SectionHeader icon={GraduationCap} title="Academic Details" />
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-medium text-gray-500 mb-1.5">
+                  <label className="block text-[10px] sm:text-xs font-medium text-gray-500 mb-1.5">
                     Branch
                   </label>
                   <select
@@ -229,13 +246,23 @@ export default function Profile() {
                     className="w-full px-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-white/5 text-sm text-[#083067] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#083067]/20"
                   >
                     <option value="">Select Branch</option>
-                    {["Computer Science", "Information Technology", "Electronics", "Mechanical", "Civil", "Chemical", "Other"].map(b => (
-                      <option key={b} value={b}>{b}</option>
+                    {[
+                      "Computer Science",
+                      "Information Technology",
+                      "Electronics",
+                      "Mechanical",
+                      "Civil",
+                      "Chemical",
+                      "Other",
+                    ].map((b) => (
+                      <option key={b} value={b}>
+                        {b}
+                      </option>
                     ))}
                   </select>
                 </div>
                 <div>
-                  <label className="block text-xs font-medium text-gray-500 mb-1.5">
+                  <label className="block text-[10px] sm:text-xs font-medium text-gray-500 mb-1.5">
                     Year
                   </label>
                   <select
@@ -244,20 +271,23 @@ export default function Profile() {
                     className="w-full px-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-white/5 text-sm text-[#083067] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#083067]/20"
                   >
                     <option value="">Select Year</option>
-                    {["1st Year", "2nd Year", "3rd Year", "4th Year"].map((y, i) => (
-                      <option key={y} value={i + 1}>{y}</option>
-                    ))}
+                    {["1st Year", "2nd Year", "3rd Year", "4th Year"].map(
+                      (y, i) => (
+                        <option key={y} value={i + 1}>
+                          {y}
+                        </option>
+                      ),
+                    )}
                   </select>
                 </div>
               </div>
             </div>
 
-            {/* Personal Details */}
             <div className="bg-white dark:bg-[#1A2F42] rounded-2xl p-6 shadow-sm">
               <SectionHeader icon={Building2} title="Personal Details" />
               <div className="space-y-5">
                 <div>
-                  <label className="block text-xs font-medium text-gray-500 mb-2">
+                  <label className="block text-[10px] sm:text-xs font-medium text-gray-500 mb-2">
                     Gender
                   </label>
                   <ToggleGroup
@@ -272,13 +302,21 @@ export default function Profile() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium text-gray-500 mb-2">
+                  <label className="block text-[10px] sm:text-xs font-medium text-gray-500 mb-2">
                     Hostel Type
                   </label>
                   <div className="grid grid-cols-2 gap-3">
                     {[
-                      { value: "BOYS_HOSTEL", label: "Boys Hostel", sub: "STANDARD" },
-                      { value: "GIRLS_HOSTEL", label: "Girls Hostel", sub: "STANDARD" },
+                      {
+                        value: "BOYS_HOSTEL",
+                        label: "Boys Hostel",
+                        sub: "STANDARD",
+                      },
+                      {
+                        value: "GIRLS_HOSTEL",
+                        label: "Girls Hostel",
+                        sub: "STANDARD",
+                      },
                     ].map((opt) => (
                       <button
                         key={opt.value}
@@ -310,15 +348,16 @@ export default function Profile() {
               </div>
             </div>
 
-            {formError && (
-              <p className="text-xs text-red-500">{formError}</p>
-            )}
+            {formError && <p className="text-[10px] sm:text-xs text-red-500">{formError}</p>}
 
             <div className="flex gap-3">
               {showForm && (
                 <button
                   type="button"
-                  onClick={() => { setShowForm(false); setFormError(""); }}
+                  onClick={() => {
+                    setShowForm(false);
+                    setFormError("");
+                  }}
                   className="flex-1 py-3 rounded-xl border border-gray-200 dark:border-gray-600 text-sm font-medium text-gray-500 dark:text-white hover:bg-gray-50 transition-colors"
                 >
                   Cancel
@@ -339,51 +378,66 @@ export default function Profile() {
     );
   }
 
-  // ── View state (profile complete) ─────────────────────────────
-  const yearLabels = { 1: "1st Year", 2: "2nd Year", 3: "3rd Year", 4: "4th Year" };
+  const yearLabels = {
+    1: "1st Year",
+    2: "2nd Year",
+    3: "3rd Year",
+    4: "4th Year",
+  };
 
   return (
-    <div className="min-h-screen bg-[#f8f9ff] dark:bg-[#0F1F2E] p-6">
-      <PageHeader title="Profile" />
+    <div className="min-h-screen bg-[#f8f9ff] dark:bg-[#0F1F2E] px-4 py-4 sm:p-6">
+      <PageHeader title="Profile" showBack backTo="/student-dashboard" />
 
-      {/* Profile header card */}
-      <div className="bg-white dark:bg-[#1A2F42] rounded-2xl p-6 shadow-sm mb-6 flex items-center justify-between">
-        <div className="flex items-center gap-5">
-          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-400 to-[#083067] flex items-center justify-center text-white text-2xl font-bold flex-shrink-0">
-            {profile?.name?.charAt(0)?.toUpperCase() || user?.email?.charAt(0)?.toUpperCase()}
-          </div>
-          <div>
-            <div className="flex items-center gap-2 mb-1">
-              <h2 className="text-lg font-bold text-[#083067] dark:text-white">
+      <div className="bg-white dark:bg-[#1A2F42] rounded-2xl p-4 sm:p-6 shadow-sm mb-6">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div className="flex items-center gap-4 min-w-0">
+            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-400 to-[#083067] flex items-center justify-center text-white text-2xl font-bold flex-shrink-0">
+              {profile?.name?.charAt(0)?.toUpperCase() ||
+                user?.email?.charAt(0)?.toUpperCase()}
+            </div>
+
+            <div className="min-w-0 flex-1">
+              <h2 className="text-xl sm:text-lg font-bold text-[#083067] dark:text-white break-words">
                 {profile?.name || user?.email?.split("@")[0]}
               </h2>
-              <span className="inline-flex items-center gap-1 text-[10px] font-semibold bg-emerald-50 text-emerald-600 px-2 py-0.5 rounded-full">
-                <CheckCircle className="w-3 h-3" />
-                Profile Complete
-              </span>
+
+              <p className="mt-1 text-[10px] sm:text-xs text-gray-400 flex items-center gap-1 break-all">
+                <Mail className="w-3 h-3 flex-shrink-0" />
+                {user?.email}
+              </p>
+
+              <div className="mt-2 sm:hidden">
+                <span className="inline-flex items-center gap-1 text-[10px] font-semibold bg-emerald-50 text-emerald-600 px-2 py-1 rounded-full">
+                  <CheckCircle className="w-3 h-3" />
+                  Profile Complete
+                </span>
+              </div>
             </div>
-            <p className="text-xs text-gray-400 flex items-center gap-1">
-              <Mail className="w-3 h-3" />
-              {user?.email}
-            </p>
+          </div>
+
+          <div className="flex flex-col items-stretch sm:items-end gap-3">
+            <span className="hidden sm:inline-flex items-center gap-1 text-[10px] font-semibold bg-emerald-50 text-emerald-600 px-2 py-0.5 rounded-full">
+              <CheckCircle className="w-3 h-3" />
+              Profile Complete
+            </span>
+
+            <button
+              onClick={() => setShowForm(true)}
+              className="w-full sm:w-auto sm:self-auto flex items-center justify-center gap-2 px-4 py-2.5 border border-gray-200 dark:border-gray-600 rounded-xl text-sm font-medium text-[#083067] dark:text-white hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
+            >
+              <Pencil className="w-4 h-4" />
+              Update Profile
+            </button>
           </div>
         </div>
-        <button
-          onClick={() => setShowForm(true)}
-          className="flex items-center gap-2 px-4 py-2.5 border border-gray-200 dark:border-gray-600 rounded-xl text-sm font-medium text-[#083067] dark:text-white hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
-        >
-          <Pencil className="w-4 h-4" />
-          Update Profile
-        </button>
       </div>
 
-      {/* 3 info cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-
         {/* Personal Info */}
-        <div className="bg-white dark:bg-[#1A2F42] rounded-2xl p-5 shadow-sm">
+        <div className="bg-white dark:bg-[#1A2F42] rounded-2xl p-4 sm:p-5 shadow-sm">
           <SectionHeader icon={User} title="Personal Info" />
-          <div className="space-y-4">
+          <div className="space-y-5">
             <InfoField label="Full Name" value={profile?.name} />
             <InfoField label="Email Address" value={user?.email} />
             <InfoField label="Contact Number" value={profile?.contactNo} />
@@ -391,9 +445,9 @@ export default function Profile() {
         </div>
 
         {/* Academic Details */}
-        <div className="bg-white dark:bg-[#1A2F42] rounded-2xl p-5 shadow-sm">
+        <div className="bg-white dark:bg-[#1A2F42] rounded-2xl p-4 sm:p-5 shadow-sm">
           <SectionHeader icon={GraduationCap} title="Academic Details" />
-          <div className="space-y-4">
+          <div className="space-y-5">
             <InfoField label="Branch / Major" value={profile?.branch} />
             <InfoField
               label="Academic Year"
@@ -403,18 +457,20 @@ export default function Profile() {
         </div>
 
         {/* Hostel Details */}
-        <div className="bg-white dark:bg-[#1A2F42] rounded-2xl p-5 shadow-sm">
+        <div className="bg-white dark:bg-[#1A2F42] rounded-2xl p-4 sm:p-5 shadow-sm">
           <SectionHeader icon={Building2} title="Hostel Details" />
-          <div className="space-y-4">
+          <div className="space-y-5">
             <InfoField label="Gender" value={profile?.gender} />
             <InfoField
               label="Hostel Type"
               value={profile?.hostelType?.replace("_", " ")}
             />
-            <InfoField label="Parent Contact" value={profile?.parentContactNo} />
+            <InfoField
+              label="Parent Contact"
+              value={profile?.parentContactNo}
+            />
           </div>
         </div>
-
       </div>
     </div>
   );

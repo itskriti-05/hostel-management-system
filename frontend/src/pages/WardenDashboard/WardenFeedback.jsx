@@ -60,7 +60,7 @@ const WardenFeedback = () => {
             className={`w-4 h-4 ${
               star <= rating
                 ? "fill-yellow-400 text-yellow-400"
-                : "text-gray-300 dark:text-gray-600"
+                : "text-gray-300 dark:text-gray-600 dark:text-gray-400"
             }`}
           />
         ))}
@@ -93,7 +93,7 @@ const WardenFeedback = () => {
             {stats.average} / 5
           </h2>
 
-          <p className="text-xs text-gray-400 mt-1">Average Rating</p>
+          <p className="text-[10px] sm:text-xs text-gray-400 mt-1">Average Rating</p>
         </div>
 
         <div className="bg-white dark:bg-[#1A2F42] rounded-2xl p-5 shadow-sm">
@@ -105,7 +105,7 @@ const WardenFeedback = () => {
             {stats.total}
           </h2>
 
-          <p className="text-xs text-gray-400 mt-1">Total Feedback</p>
+          <p className="text-[10px] sm:text-xs text-gray-400 mt-1">Total Feedback</p>
         </div>
 
         <div className="bg-white dark:bg-[#1A2F42] rounded-2xl p-5 shadow-sm">
@@ -117,7 +117,7 @@ const WardenFeedback = () => {
             {stats.fiveStar}
           </h2>
 
-          <p className="text-xs text-gray-400 mt-1">5 Star Reviews</p>
+          <p className="text-[10px] sm:text-xs text-gray-400 mt-1">5 Star Reviews</p>
         </div>
       </div>
 
@@ -130,7 +130,7 @@ const WardenFeedback = () => {
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-gray-100 dark:border-gray-700 text-left text-gray-500 uppercase text-xs">
+              <tr className="border-b border-gray-100 dark:border-gray-700 text-left text-gray-500 uppercase text-[10px] sm:text-xs">
                 <th className="pb-3">Student</th>
                 <th className="pb-3">Rating</th>
                 <th className="pb-3">Feedback</th>
@@ -165,7 +165,7 @@ const WardenFeedback = () => {
                             {feedback.userId?.name}
                           </p>
 
-                          <p className="text-xs text-gray-400">
+                          <p className="text-[10px] sm:text-xs text-gray-400">
                             {feedback.userId?.email}
                           </p>
                         </div>
@@ -177,7 +177,7 @@ const WardenFeedback = () => {
                     </td>
 
                     <td className="py-4 max-w-md">
-                      <p className="truncate text-gray-600 dark:text-gray-300">
+                      <p className="truncate text-gray-600 dark:text-gray-400 dark:text-gray-300">
                         {feedback.comment}
                       </p>
                     </td>

@@ -111,7 +111,7 @@ const Login = () => {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:text-gray-400"
                 >
                   {showPassword ? (
                     <EyeOff className="w-4.5 h-4.5" />
@@ -123,7 +123,7 @@ const Login = () => {
             </div>
 
             <div className="flex items-center justify-between text-sm">
-              <label className="flex items-center gap-2 text-gray-600 cursor-pointer">
+              <label className="flex items-center gap-2 text-gray-600 dark:text-gray-400 cursor-pointer">
                 <input type="checkbox" className="rounded border-gray-300" />
                 Remember me
               </label>

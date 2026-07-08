@@ -27,7 +27,7 @@ function StatCard({ icon: Icon, iconBg, value, label, badge, badgeColor, sub }) 
         {value}
       </div>
       {sub && <p className="text-[10px] text-blue-400 font-medium mb-0.5">{sub}</p>}
-      <p className="text-xs text-gray-400">{label}</p>
+      <p className="text-[10px] sm:text-xs text-gray-400">{label}</p>
     </div>
   );
 }
@@ -182,14 +182,14 @@ export default function WardenOverview() {
             </h2>
             <button
               onClick={() => navigate("/warden-dashboard/complaints")}
-              className="text-xs text-blue-400 hover:underline"
+              className="text-[10px] sm:text-xs text-blue-400 hover:underline"
             >
               VIEW ALL
             </button>
           </div>
 
           <div className="overflow-x-auto">
-            <table className="w-full text-xs">
+            <table className="w-full text-[10px] sm:text-xs">
               <thead>
                 <tr className="text-gray-400 uppercase tracking-wider border-b border-gray-100 dark:border-gray-700">
                   <th className="text-left pb-3 font-medium">Student</th>
@@ -238,7 +238,7 @@ export default function WardenOverview() {
 
           <div className="space-y-3">
             {students.length === 0 ? (
-              <p className="text-xs text-gray-400 text-center py-4">
+              <p className="text-[10px] sm:text-xs text-gray-400 text-center py-4">
                 No students yet
               </p>
             ) : (
@@ -248,11 +248,11 @@ export default function WardenOverview() {
                   className="flex items-center gap-3 p-2 hover:bg-gray-50 dark:hover:bg-white/5 rounded-xl cursor-pointer"
                   onClick={() => navigate("/warden-dashboard/students")}
                 >
-                  <div className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-400 to-[#083067] flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
+                  <div className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-400 to-[#083067] flex items-center justify-center text-white text-[10px] sm:text-xs font-bold flex-shrink-0">
                     {s.name?.charAt(0).toUpperCase()}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-xs font-semibold text-[#083067] dark:text-white truncate">
+                    <p className="text-[10px] sm:text-xs font-semibold text-[#083067] dark:text-white truncate">
                       {s.name}
                     </p>
                     <p className="text-[10px] text-gray-400">
@@ -269,7 +269,7 @@ export default function WardenOverview() {
 
           <button
             onClick={() => navigate("/warden-dashboard/students")}
-            className="w-full mt-4 py-2 text-xs font-medium text-[#083067] dark:text-white border border-gray-100 dark:border-gray-700 rounded-xl hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
+            className="w-full mt-4 py-2 text-[10px] sm:text-xs font-medium text-[#083067] dark:text-white border border-gray-100 dark:border-gray-700 rounded-xl hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
           >
             All New Students
           </button>

@@ -114,7 +114,7 @@ const handleSubmit = async(e)=>{
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:text-gray-400"
                 >
                   {showPassword ? <EyeOff className="w-4.5 h-4.5" /> : <Eye className="w-4.5 h-4.5" />}
                 </button>
@@ -147,7 +147,7 @@ const handleSubmit = async(e)=>{
             </button>
           </form>
 
-          <p className="text-center text-xs text-gray-500 mt-4">
+          <p className="text-center text-[10px] sm:text-xs text-gray-500 mt-4">
             By creating an account, you agree to our{" "}
             <a href="#" className="underline hover:text-[#1B3C53]">Terms</a> and{" "}
             <a href="#" className="underline hover:text-[#1B3C53]">Privacy Policy</a>.

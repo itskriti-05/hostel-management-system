@@ -70,7 +70,7 @@ const ROOM_TYPE_OPTIONS = [
 function ToggleGroup({ options, value, onChange, columns = 3 }) {
   const colClass = columns === 2 ? "grid-cols-2" : "grid-cols-3";
   return (
-    <div className={`grid ${colClass} gap-3`}>
+    <div className={`grid ${colClass} gap-2 sm:gap-3`}>
       {options.map((opt) => {
         const Icon = opt.icon;
         const selected = value === opt.value;
@@ -79,10 +79,10 @@ function ToggleGroup({ options, value, onChange, columns = 3 }) {
             key={opt.value}
             type="button"
             onClick={() => onChange(opt.value)}
-            className={`flex items-center justify-center gap-2 px-4 py-3 rounded-xl border text-sm font-medium transition-colors ${
+            className={`flex items-center justify-center gap-2 px-2 sm:px-4 py-3 rounded-xl text-[10px] sm:text-xs sm:text-sm font-medium transition-colors ${
               selected
                 ? "border-[#083067] bg-[#eff4ff] text-[#083067] dark:bg-blue-900/20 dark:border-blue-400 dark:text-white"
-                : "border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5"
+                : "border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-400 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5"
             }`}
           >
             {Icon && <Icon className="w-4 h-4" />}
@@ -97,7 +97,7 @@ function ToggleGroup({ options, value, onChange, columns = 3 }) {
 function PreferenceCard({ icon, value, label, description }) {
   const Icon = icon;
   return (
-    <div className="bg-white dark:bg-[#1A2F42] rounded-2xl p-5 shadow-sm">
+    <div className="bg-white dark:bg-[#1A2F42] rounded-2xl p-4 lg:p-5 shadow-sm">
       <div className="w-10 h-10 bg-gray-100 dark:bg-white/10 rounded-xl flex items-center justify-center mb-4">
         <Icon className="w-5 h-5 text-[#083067] dark:text-white" />
       </div>
@@ -108,7 +108,7 @@ function PreferenceCard({ icon, value, label, description }) {
         {value}
       </h4>
       {description && (
-        <p className="text-xs text-gray-400 leading-relaxed">{description}</p>
+        <p className="text-[10px] sm:text-xs text-gray-400 leading-relaxed">{description}</p>
       )}
     </div>
   );
@@ -275,24 +275,28 @@ const Preferences = () => {
   // Empty state only for now
   if (!preference && !showForm) {
     return (
-       <EmptyState
-    title="Room Preferences"
-    icon={BedDouble}
-    description="You haven't filled your room preferences yet. Complete the preference form so we can find the most compatible roommate for you."
-    primaryAction={() => setShowForm(true)}
-    primaryLabel="Add Preferences"
-  />
+      <EmptyState
+        title="Room Preferences"
+        icon={BedDouble}
+        description="You haven't filled your room preferences yet. Complete the preference form so we can find the most compatible roommate for you."
+        primaryAction={() => setShowForm(true)}
+        primaryLabel="Add Preferences"
+      />
     );
   }
 
   if (showForm) {
     return (
-      <div className="min-h-screen bg-[#f8f9ff] dark:bg-[#0F1F2E] p-6 flex flex-col items-center">
+      <div className="min-h-screen bg-[#f8f9ff] dark:bg-[#0F1F2E] p-4 lg:p-6 flex flex-col items-center">
         <div className="w-full max-w-2xl">
-          <PageHeader title="Preferences" />
+          <PageHeader
+            title="Preferences"
+            showBack
+            backTo="/student-dashboard/preferences"
+          />
         </div>
 
-        <div className="bg-white dark:bg-[#1A2F42] rounded-2xl shadow-sm p-6 w-full max-w-2xl">
+        <div className="bg-white dark:bg-[#1A2F42] rounded-2xl shadow-sm p-4 lg:p-6 w-full max-w-2xl">
           <div className="flex items-center gap-3 mb-1">
             <ClipboardList className="w-5 h-5 text-[#083067] dark:text-white" />
             <h2 className="text-lg font-bold text-[#083067] dark:text-white">
@@ -348,7 +352,7 @@ const Preferences = () => {
               />
             </div>
 
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div>
                 <h3 className="text-sm font-semibold text-[#083067] dark:text-white mb-2">
                   Allergies
@@ -384,7 +388,7 @@ const Preferences = () => {
               <h3 className="text-sm font-semibold text-[#083067] dark:text-white mb-2">
                 Room Capacity Preference
               </h3>
-              <div className="flex gap-3">
+              <div className="flex flex-wrap gap-3">
                 {ROOM_TYPE_OPTIONS.map((opt) => (
                   <button
                     key={opt.value}
@@ -393,7 +397,7 @@ const Preferences = () => {
                     className={`w-12 h-12 rounded-full border text-sm font-semibold transition-colors flex items-center justify-center ${
                       roomType === opt.value
                         ? "border-[#083067] bg-[#eff4ff] text-[#083067] dark:bg-blue-900/20 dark:border-blue-400 dark:text-white"
-                        : "border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5"
+                        : "border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-400 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5"
                     }`}
                   >
                     {opt.label}
@@ -402,9 +406,9 @@ const Preferences = () => {
               </div>
             </div>
 
-            {formError && <p className="text-xs text-red-500">{formError}</p>}
+            {formError && <p className="text-[10px] sm:text-xs text-red-500">{formError}</p>}
 
-            <div className="flex justify-end pt-2">
+            <div className="flex flex-col-reverse sm:flex-row sm:justify-end gap-3 pt-2">
               <button
                 type="button"
                 onClick={() => {
@@ -418,14 +422,14 @@ const Preferences = () => {
                   setRoomTempPreference("");
                   setRoomType("");
                 }}
-                className="px-8 py-2.5 rounded-xl border border-gray-300 text-gray-700 bg-white hover:bg-gray-100 dark:bg-[#1A2F42] dark:border-gray-600 dark:text-white dark:hover:bg-[#24384B] transition-colors mr-2 font-semibold"
+                className="w-full sm:w-auto px-8 py-2.5 rounded-xl border border-gray-300 text-gray-700 bg-white hover:bg-gray-100 dark:bg-[#1A2F42] dark:border-gray-600 dark:text-white dark:hover:bg-[#24384B] transition-colors font-semibold"
               >
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={submitting}
-                className="px-6 py-2.5 rounded-xl bg-[#083067] hover:bg-[#0a3d80] text-white text-sm font-medium transition-colors disabled:opacity-60"
+                className=" w-full sm:w-auto px-6 py-2.5 rounded-xl bg-[#083067] hover:bg-[#0a3d80] text-white text-sm font-medium transition-colors disabled:opacity-60"
               >
                 {submitting ? "Saving..." : "Save Preferences"}
               </button>
@@ -438,9 +442,9 @@ const Preferences = () => {
 
   // after submitting
   return (
-    <div className="min-h-screen bg-[#f8f9ff] dark:bg-[#0F1F2E] p-6">
+    <div className="min-h-screen bg-[#f8f9ff] dark:bg-[#0F1F2E] p-4 lg:p-6">
       <PageHeader title="Preferences" />
-      <div className="inline-flex items-center gap-2 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 text-xs font-semibold px-3 py-1.5 rounded-full mb-4">
+      <div className="inline-flex items-center gap-2 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 text-[10px] sm:text-xs font-semibold px-3 py-1.5 rounded-full mb-4">
         <CheckCircle className="w-3.5 h-3.5" />
         PREFERENCES SUBMITTED
       </div>
@@ -496,7 +500,7 @@ const Preferences = () => {
           value={ROOM_TYPE_LABELS[preference.roomType]?.title}
           description={ROOM_TYPE_LABELS[preference.roomType]?.desc}
         />
-        <div className="bg-[#eff4ff] dark:bg-blue-900/10 rounded-2xl p-5 shadow-sm flex flex-col">
+        <div className="bg-[#eff4ff] dark:bg-blue-900/10 rounded-2xl p-4 lg:p-5 shadow-sm flex flex-col">
           <div className="w-10 h-10 bg-white dark:bg-white/10 rounded-xl flex items-center justify-center mb-4">
             <Sparkles className="w-5 h-5 text-[#083067] dark:text-white" />
           </div>
@@ -504,11 +508,11 @@ const Preferences = () => {
             MATCHING STATUS
           </p>
           <h4 className="text-sm font-bold text-[#083067] dark:text-white mb-1">
-            Pending Match
+            Awaiting Algorithm
           </h4>
-          <p className="text-xs text-gray-400 leading-relaxed">
-            Algorithm is currently processing roommate compatibility based on
-            these metrics.
+          <p className="text-[10px] sm:text-xs text-gray-400 leading-relaxed">
+            Your preferences are saved. The warden will run the matching
+            algorithm to find your roommate.
           </p>
         </div>
       </div>

@@ -23,7 +23,7 @@ function InfoField({ label, value }) {
 function InputField({ label, type = "text", value, onChange, placeholder, disabled }) {
   return (
     <div>
-      <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5">
+      <label className="block text-[10px] sm:text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5">
         {label}
       </label>
       <input
@@ -156,7 +156,7 @@ export default function WardenProfile() {
                 <h2 className="text-lg font-bold text-[#083067] dark:text-white">
                   {profile?.name}
                 </h2>
-                <p className="text-xs text-gray-400 flex items-center gap-1 mt-0.5">
+                <p className="text-[10px] sm:text-xs text-gray-400 flex items-center gap-1 mt-0.5">
                   <Mail className="w-3 h-3" />
                   {profile?.email}
                 </p>
@@ -210,7 +210,7 @@ export default function WardenProfile() {
             <InputField label="Contact Number" type="tel" value={contactNo} onChange={(e) => setContactNo(e.target.value)} />
 
             <div>
-              <label className="block text-xs font-medium text-gray-500 mb-2">Hostel Type</label>
+              <label className="block text-[10px] sm:text-xs font-medium text-gray-500 mb-2">Hostel Type</label>
               <div className="grid grid-cols-2 gap-3">
                 {[
                   { value: "BOYS_HOSTEL", label: "Boys Hostel" },
@@ -232,7 +232,7 @@ export default function WardenProfile() {
               </div>
             </div>
 
-            {formError && <p className="text-xs text-red-500">{formError}</p>}
+            {formError && <p className="text-[10px] sm:text-xs text-red-500">{formError}</p>}
 
             <div className="flex gap-3 pt-2">
               <button
@@ -261,7 +261,7 @@ export default function WardenProfile() {
           <div className="bg-white dark:bg-[#1A2F42] rounded-2xl shadow-xl w-full max-w-sm p-6 relative">
             <button
               onClick={() => setShowPasswordModal(false)}
-              className="absolute top-5 right-5 text-gray-400 hover:text-gray-600"
+              className="absolute top-5 right-5 text-gray-400 hover:text-gray-600 dark:text-gray-400"
             >
               <X className="w-5 h-5" />
             </button>
@@ -269,13 +269,13 @@ export default function WardenProfile() {
             <h3 className="text-lg font-semibold text-[#083067] dark:text-white mb-1">
               Change Password
             </h3>
-            <p className="text-sm text-gray-400 mb-5">
+            <p className="text-sm text-gray-500 dark:text-gray-400 mb-5">
               Enter your current and new password.
             </p>
 
             <form onSubmit={handlePasswordSubmit} className="space-y-4">
               <div>
-                <label className="block text-xs font-medium text-gray-500 mb-1.5">
+                <label className="block text-[10px] sm:text-xs font-medium text-gray-500 mb-1.5">
                   Current Password
                 </label>
                 <div className="relative">
@@ -296,7 +296,7 @@ export default function WardenProfile() {
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-gray-500 mb-1.5">
+                <label className="block text-[10px] sm:text-xs font-medium text-gray-500 mb-1.5">
                   New Password
                 </label>
                 <div className="relative">
@@ -323,8 +323,8 @@ export default function WardenProfile() {
                 onChange={(e) => setConfirmPassword(e.target.value)}
               />
 
-              {passwordError && <p className="text-xs text-red-500">{passwordError}</p>}
-              {passwordSuccess && <p className="text-xs text-emerald-500">{passwordSuccess}</p>}
+              {passwordError && <p className="text-[10px] sm:text-xs text-red-500">{passwordError}</p>}
+              {passwordSuccess && <p className="text-[10px] sm:text-xs text-emerald-500">{passwordSuccess}</p>}
 
               <button
                 type="submit"

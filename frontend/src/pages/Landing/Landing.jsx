@@ -64,7 +64,7 @@ export default function Landing() {
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
               Everything You Need for Hostel Living
             </h2>
-            <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
+            <p className="text-lg md:text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
               From finding compatible roommates to addressing maintenance
               requests, our platform is designed to improve your hostel life.
             </p>
@@ -115,7 +115,7 @@ function FeatureRow({ img, title, text, points, reverse }) {
         <h3 className="text-2xl md:text-3xl font-bold text-gray-900">
           {title}
         </h3>
-        <p className="text-base md:text-lg text-gray-600 leading-relaxed">
+        <p className="text-base md:text-lg text-gray-600 dark:text-gray-400 leading-relaxed">
           {text}
         </p>
         <div className="flex flex-wrap gap-4 text-sm text-gray-500">

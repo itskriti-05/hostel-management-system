@@ -175,14 +175,14 @@ const WardenComplaints = () => {
                     >
                       <td className="px-5 py-4">
                         <div className="flex items-center gap-3">
-                          <div className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-400 to-[#083067] flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
+                          <div className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-400 to-[#083067] flex items-center justify-center text-white text-[10px] sm:text-xs font-bold flex-shrink-0">
                             {c.userId?.name?.charAt(0).toUpperCase() || "?"}
                           </div>
                           <div>
                             <p className="text-sm font-medium text-[#083067] dark:text-white">
                               {c.userId?.name || "Unknown"}
                             </p>
-                            <p className="text-xs text-gray-400">
+                            <p className="text-[10px] sm:text-xs text-gray-400">
                               {c.userId?.email}
                             </p>
                           </div>
@@ -196,14 +196,14 @@ const WardenComplaints = () => {
                           <p className="text-sm font-medium text-[#083067] dark:text-white">
                             {c.title}
                           </p>
-                          <p className="text-xs text-gray-400 mt-1 truncate">
+                          <p className="text-[10px] sm:text-xs text-gray-400 mt-1 truncate">
                             {c.description}
                           </p>
                         </div>
                       </td>
                       <td className="px-5 py-4">
                         <span
-                          className={`text-xs px-2.5 py-1 rounded-full font-semibold ${
+                          className={`text-[10px] sm:text-xs px-2.5 py-1 rounded-full font-semibold ${
                             c.status === "PENDING"
                               ? "bg-amber-50 text-amber-600"
                               : c.status === "IN_PROGRESS"
@@ -216,7 +216,7 @@ const WardenComplaints = () => {
                       </td>
                       <td className="px-5 py-4">
                         <span
-                          className={`text-xs px-2.5 py-1 rounded-full font-semibold ${
+                          className={`text-[10px] sm:text-xs px-2.5 py-1 rounded-full font-semibold ${
                             c.priority === "HIGH"
                               ? "bg-red-50 text-red-600"
                               : c.priority === "MEDIUM"
@@ -235,7 +235,7 @@ const WardenComplaints = () => {
           </div>
 
           <div className="p-4 border-t border-gray-100 dark:border-gray-700 text-center">
-            <p className="text-xs text-gray-400">
+            <p className="text-[10px] sm:text-xs text-gray-400">
               Showing {filtered.length} of {complaints.length} complaints
             </p>
           </div>
@@ -261,7 +261,7 @@ const WardenComplaints = () => {
             <div className="space-y-4">
               {/* Complaint details */}
               <div className="bg-gray-50 dark:bg-white/5 rounded-xl p-4">
-                <p className="text-xs text-gray-400 uppercase tracking-wider mb-1">
+                <p className="text-[10px] sm:text-xs text-gray-400 uppercase tracking-wider mb-1">
                   Title
                 </p>
                 <p className="text-sm font-medium text-[#083067] dark:text-white">
@@ -270,7 +270,7 @@ const WardenComplaints = () => {
               </div>
 
               <div className="bg-gray-50 dark:bg-white/5 rounded-xl p-4">
-                <p className="text-xs text-gray-400 uppercase tracking-wider mb-1">
+                <p className="text-[10px] sm:text-xs text-gray-400 uppercase tracking-wider mb-1">
                   Description
                 </p>
                 <p className="text-sm text-gray-600 dark:text-gray-300">
@@ -280,7 +280,7 @@ const WardenComplaints = () => {
 
               {/* Status dropdown */}
               <div>
-                <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5 block">
+                <label className="text-[10px] sm:text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5 block">
                   Status
                 </label>
                 <select
@@ -301,7 +301,7 @@ const WardenComplaints = () => {
 
               {/* Priority dropdown */}
               <div>
-                <label className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5 block">
+                <label className="text-[10px] sm:text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1.5 block">
                   Priority
                 </label>
                 <select

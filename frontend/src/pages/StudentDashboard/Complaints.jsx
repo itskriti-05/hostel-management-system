@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import api from "../../api/axios";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext";
-import {  ClipboardList,
+import {
+  ClipboardList,
   CalendarClock,
   CheckCircle2,
   Plus,
@@ -13,61 +12,73 @@ import {  ClipboardList,
   AlertCircle,
   Calendar,
   Hash,
-  ChevronRight, } from "lucide-react";
+  ChevronRight,
+} from "lucide-react";
 
-function StatSquare({ icon, iconBg, value, label, badge, badgeColor }) {
+function StatSquare({ icon, iconBg, value, label }) {
   return (
-    <div className="bg-white dark:bg-[#1A2F42] rounded-2xl p-5 shadow-sm">
-      <div className="flex items-center justify-between mb-3">
-        <div
-          className={`w-9 h-9 ${iconBg} rounded-lg flex items-center justify-center`}
-        >
-          {icon}
-        </div>
-        <span
-          className={`text-[10px] px-2 py-1 rounded-full font-medium ${badgeColor}`}
-        >
-          {badge}
-        </span>
+    <div className="bg-white dark:bg-[#1A2F42] rounded-xl p-2 sm:p-4 border border-gray-100 dark:border-gray-700 shadow-sm">
+      {/* Icon in a colored circle */}
+      <div
+        className={`w-9 h-9 ${iconBg} rounded-lg flex items-center justify-center mb-3`}
+      >
+        {icon}
       </div>
+      {/* Big number */}
       <div className="text-2xl font-bold text-[#083067] dark:text-white">
         {String(value).padStart(2, "0")}
       </div>
-      <div className="text-[10px] font-medium text-gray-400 tracking-wider mt-1">
+      {/* Label */}
+      <div className="text-[9px] sm:text-[10px] font-medium text-gray-600 dark:text-gray-400 tracking-wider mt-1">
         {label}
       </div>
     </div>
   );
 }
 
-function getComplaintIcon(title=""){
-  const t=title.toLowerCase();
-  if(t.includes("water") || t.includes("leak")){
-     return { icon: <Droplet className="w-5 h-5 text-red-500" />, bg: "bg-red-50 dark:bg-red-900/20" };
+function getComplaintIcon(title = "") {
+  const t = title.toLowerCase();
+  if (t.includes("water") || t.includes("leak")) {
+    return {
+      icon: <Droplet className="w-5 h-5 text-red-500" />,
+      bg: "bg-red-50 dark:bg-red-900/20",
+    };
   }
-   if (t.includes("wifi") || t.includes("internet") || t.includes("network")) {
-    return { icon: <Wifi className="w-5 h-5 text-[#083067]" />, bg: "bg-blue-50 dark:bg-blue-900/20" };
+  if (t.includes("wifi") || t.includes("internet") || t.includes("network")) {
+    return {
+      icon: <Wifi className="w-5 h-5 text-[#083067]" />,
+      bg: "bg-blue-50 dark:bg-blue-900/20",
+    };
   }
   if (t.includes("ac") || t.includes("cool") || t.includes("temperature")) {
-    return { icon: <Snowflake className="w-5 h-5 text-sky-500" />, bg: "bg-sky-50 dark:bg-sky-900/20" };
+    return {
+      icon: <Snowflake className="w-5 h-5 text-sky-500" />,
+      bg: "bg-sky-50 dark:bg-sky-900/20",
+    };
   }
-  return { icon: <AlertCircle className="w-5 h-5 text-[#4c2f06] dark:text-white" />, bg: "bg-[#ffddb8] dark:bg-amber-900/20" };
-
-
+  return {
+    icon: <AlertCircle className="w-5 h-5 text-[#4c2f06] dark:text-white" />,
+    bg: "bg-[#ffddb8] dark:bg-amber-900/20",
+  };
 }
-function StatusBadge({status}){
+function StatusBadge({ status }) {
   const map = {
-    PENDING: { label: "Pending", color: "bg-amber-50 text-amber-600" },
-    IN_PROGRESS: { label: "In Progress", color: "bg-blue-50 text-blue-500" },
-    RESOLVED: { label: "Resolved", color: "bg-emerald-50 text-emerald-600" },
+    PENDING: {
+      label: "Pending",
+      color:
+        "bg-amber-50 text-amber-600 dark:bg-amber-900/40 dark:text-amber-300",
+    },
+    IN_PROGRESS: { label: "In Progress", color: "bg-blue-50 text-blue-500 dark:bg-blue-900/40 dark:text-blue-300" },
+    RESOLVED: { label: "Resolved", color: "bg-emerald-50 text-emerald-600 dark:bg-emerald-900/40 dark:text-emerald-300" },
   };
   const s = map[status] || map.PENDING;
   return (
-    <span className={`text-xs px-3 py-1 rounded-full font-medium whitespace-nowrap ${s.color}`}>
+    <span
+      className={`text-[10px] sm:text-xs px-3 py-1 rounded-full font-medium whitespace-nowrap ${s.color}`}
+    >
       {s.label}
     </span>
   );
-
 }
 
 const Complaints = () => {
@@ -75,13 +86,12 @@ const Complaints = () => {
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
 
-  //for forms 
+  //for forms
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [roomId, setRoomId] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [formError, setFormError] = useState("");
-
 
   useEffect(() => {
     fetchComplaints();
@@ -112,38 +122,43 @@ const Complaints = () => {
     day: "numeric",
   });
 
-const resetForm = () =>{
-   setTitle("");
+  const resetForm = () => {
+    setTitle("");
     setDescription("");
     setRoomId("");
     setFormError("");
-}
+  };
 
   const handleCloseModal = () => {
     setShowModal(false);
     resetForm();
   };
 
-  const handleSubmit = async(e)=>{
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if(!title.trim() || !description.trim() || !roomId.trim()){
-       setFormError("Please fill in all fields.");
+    if (!title.trim() || !description.trim() || !roomId.trim()) {
+      setFormError("Please fill in all fields.");
       return;
     }
-      setSubmitting(true);
+    setSubmitting(true);
     setFormError("");
-    try{
-      const res = await api.post("/api/complaint",{title,description,roomId})
-      setComplaints(prev => [res.data, ...prev]);
+    try {
+      const res = await api.post("/api/complaint", {
+        title,
+        description,
+        roomId,
+      });
+      setComplaints((prev) => [res.data, ...prev]);
       handleCloseModal();
-
-    }catch(err){
-      setFormError(err.response?.data?.message || "Something went wrong. Please try again.");
-    }finally{
-       setSubmitting(false);
+    } catch (err) {
+      setFormError(
+        err.response?.data?.message ||
+          "Something went wrong. Please try again.",
+      );
+    } finally {
+      setSubmitting(false);
     }
-
-  }
+  };
 
   if (loading) {
     return (
@@ -153,17 +168,17 @@ const resetForm = () =>{
     );
   }
   return (
-    <div className="min-h-screen bg-[#f8f9ff] dark:bg-[#0F1F2E] p-6">
+    <div className="min-h-screen bg-[#f8f9ff] dark:bg-[#0F1F2E] p-4 lg:p-6">
       {/* Header */}
       <div className="mb-6">
         <h1 className="text-lg font-semibold text-[#083067] dark:text-white">
           Complaints
         </h1>
-        <p className="text-sm text-gray-400 mt-1">{today}</p>
+        <p className="text-sm text-gray-400 dark:text-gray-400 mt-1">{today}</p>
       </div>
 
-      {/* Stat squares — same as Overview */}
-      <div className="grid grid-cols-3 gap-4 mb-6">
+      {/* Stat squares */}
+      <div className="grid grid-cols-3 gap-2 lg:gap-4 mb-6">
         <StatSquare
           icon={
             <ClipboardList className="w-4 h-4 text-[#083067] dark:text-white" />
@@ -171,8 +186,6 @@ const resetForm = () =>{
           iconBg="bg-[#d5e3ff] dark:bg-blue-900/20"
           value={totalCount}
           label="TOTAL FILED"
-          badge="All Time"
-          badgeColor="bg-blue-50 text-blue-400"
         />
         <StatSquare
           icon={
@@ -181,8 +194,7 @@ const resetForm = () =>{
           iconBg="bg-[#ffddb8] dark:bg-amber-900/20"
           value={pendingCount}
           label="PENDING REVIEW"
-          badge="Action Required"
-          badgeColor="bg-amber-50 text-amber-500"
+        
         />
         <StatSquare
           icon={
@@ -191,26 +203,23 @@ const resetForm = () =>{
           iconBg="bg-[#d5e3ff] dark:bg-green-900/20"
           value={resolvedCount}
           label="RESOLVED"
-          badge="Completed"
-          badgeColor="bg-green-50 text-green-500"
+        
         />
       </div>
 
-      {/* Activity section coming next */}
-
       {/* Activity Tracking header */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3 mb-6">
         <div>
           <h2 className="text-base font-semibold text-[#083067] dark:text-white">
             Activity Tracking
           </h2>
-          <p className="text-sm text-gray-400 mt-1">
+          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
             Manage and monitor your reported housing issues.
           </p>
         </div>
         <button
           onClick={() => setShowModal(true)}
-          className="flex items-center gap-2 bg-[#083067] hover:bg-[#0a3d80] text-white text-sm font-medium px-4 py-2.5 rounded-xl transition-colors"
+          className="flex items-center justify-center gap-2 bg-[#083067] hover:bg-[#0a3d80] text-white text-sm font-medium px-4 py-2.5 rounded-xl transition-colors w-full lg:w-auto"
         >
           <Plus className="w-4 h-4" />
           File New Complaint
@@ -218,7 +227,7 @@ const resetForm = () =>{
       </div>
 
       {/* Recent Complaints card */}
-      <div className="bg-white dark:bg-[#1A2F42] rounded-2xl shadow-sm p-6">
+      <div className="bg-white dark:bg-[#1A2F42] rounded-2xl shadow-sm p-4 lg:p-6">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-sm font-semibold text-[#083067] dark:text-white">
             Recent Complaints
@@ -226,7 +235,7 @@ const resetForm = () =>{
         </div>
 
         {complaints.length === 0 ? (
-          <div className="text-center py-10 text-gray-400 text-sm">
+          <div className="text-center py-10 text-gray-500 dark:text-gray-400 text-sm">
             No complaints filed yet. Click "File New Complaint" to get started.
           </div>
         ) : (
@@ -241,14 +250,13 @@ const resetForm = () =>{
                   year: "numeric",
                 },
               );
-              const shortId = c._id ? c._id.slice(-4).toUpperCase() : "----";
               return (
                 <div
                   key={c._id}
-                  className="flex items-center gap-4 py-4 hover:bg-gray-50 dark:hover:bg-white/5 rounded-xl px-2 transition-colors cursor-pointer"
+                  className="flex items-start lg:items-center gap-3 lg:gap-4 py-4 hover:bg-gray-50 dark:hover:bg-white/5 rounded-xl px-2 transition-colors cursor-pointer"
                 >
                   <div
-                    className={`w-10 h-10 ${bg} rounded-xl flex items-center justify-center flex-shrink-0`}
+                    className={`w-9 h-9 lg:w-10 lg:h-10 ${bg} rounded-xl flex items-center justify-center flex-shrink-0`}
                   >
                     {icon}
                   </div>
@@ -256,22 +264,26 @@ const resetForm = () =>{
                     <h4 className="text-sm font-semibold text-[#083067] dark:text-white truncate">
                       {c.title}
                     </h4>
-                    <p className="text-xs text-gray-400 mt-0.5 truncate">
+                    <p className="text-[10px] sm:text-xs text-gray-500 dark:text-gray-300 mt-0.5 truncate">
                       {c.description}
                     </p>
-                    <div className="flex items-center gap-4 mt-1.5 text-[11px] text-gray-400">
-                      <span className="flex items-center gap-1">
+<div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-1.5 text-[11px] text-gray-500 dark:text-gray-400">                      <span className="flex items-center gap-1">
                         <Calendar className="w-3 h-3" />
                         {dateStr}
                       </span>
                       <span className="flex items-center gap-1">
                         <Hash className="w-3 h-3" />
-                       Room {c.roomId}
+                        Room {c.roomId}
+                      </span>
+                      <span className="lg:hidden">
+                        <StatusBadge status={c.status} />
                       </span>
                     </div>
                   </div>
-                  <StatusBadge status={c.status} />
-                  <ChevronRight className="w-4 h-4 text-gray-300 flex-shrink-0" />
+                  <div className="hidden lg:flex items-center gap-3 flex-shrink-0">
+                    <StatusBadge status={c.status} />
+                   <ChevronRight className="w-4 h-4 text-gray-300 dark:text-gray-500" />
+                  </div>
                 </div>
               );
             })}
@@ -279,7 +291,15 @@ const resetForm = () =>{
         )}
 
         <div className="text-center mt-4">
-          <button className="text-sm font-medium text-[#083067] dark:text-white hover:underline">
+          <button
+            className="mt-4
+text-sm
+font-medium
+text-[#60A5FA]
+hover:text-blue-300
+transition-colors
+"
+          >
             View All Complaint History
           </button>
         </div>
@@ -288,10 +308,10 @@ const resetForm = () =>{
       {/* File New Complaint Modal */}
       {showModal && (
         <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-white dark:bg-[#1A2F42] rounded-2xl shadow-xl w-full max-w-md p-6 relative">
+          <div className="bg-white dark:bg-[#1A2F42] rounded-2xl shadow-xl w-full max-w-md p-6 relative max-h-[85vh] overflow-y-auto">
             <button
               onClick={handleCloseModal}
-              className="absolute top-5 right-5 text-gray-400 hover:text-gray-600 dark:hover:text-white"
+              className="absolute top-5 right-5 text-gray-400 hover:text-gray-600 dark:text-gray-400 dark:hover:text-white"
             >
               <X className="w-5 h-5" />
             </button>
@@ -299,13 +319,13 @@ const resetForm = () =>{
             <h3 className="text-lg font-semibold text-[#083067] dark:text-white mb-1">
               File New Complaint
             </h3>
-            <p className="text-sm text-gray-400 mb-5">
+            <p className="text-sm text-gray-500 dark:text-gray-400 mb-5">
               Describe your issue and we'll get it resolved as soon as possible.
             </p>
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-xs font-medium text-gray-500 mb-1.5">
+                <label className="block text-[10px] sm:text-xs font-medium text-gray-600 dark:text-gray-400 mb-1.5">
                   Complaint Title
                 </label>
                 <input
@@ -318,7 +338,7 @@ const resetForm = () =>{
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-gray-500 mb-1.5">
+                <label className="block text-[10px] sm:text-xs font-medium text-gray-600 dark:text-gray-400 mb-1.5">
                   Room Number
                 </label>
                 <input
@@ -331,7 +351,7 @@ const resetForm = () =>{
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-gray-500 mb-1.5">
+                <label className="block text-[10px] sm:text-xs font-medium text-gray-600 dark:text-gray-400 mb-1.5">
                   Description
                 </label>
                 <textarea
@@ -343,13 +363,17 @@ const resetForm = () =>{
                 />
               </div>
 
-              {formError && <p className="text-xs text-red-500">{formError}</p>}
+              {formError && (
+                <p className="text-[10px] sm:text-xs text-red-500">
+                  {formError}
+                </p>
+              )}
 
               <div className="flex gap-3 pt-2">
                 <button
                   type="button"
                   onClick={handleCloseModal}
-                  className="flex-1 py-2.5 rounded-xl border border-gray-200 dark:border-gray-600 text-sm font-medium text-gray-500 dark:text-white hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
+                  className="flex-1 py-2.5 rounded-xl border border-gray-200 dark:border-gray-600 text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
                 >
                   Cancel
                 </button>

@@ -141,7 +141,7 @@ const Students = () => {
                   <tr key={s.id} className="hover:bg-gray-50 dark:hover:bg-white/5 transition-colors">
                     <td className="px-5 py-4">
                       <div className="flex items-center gap-3">
-                        <div className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-400 to-[#083067] flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
+                        <div className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-400 to-[#083067] flex items-center justify-center text-white text-[10px] sm:text-xs font-bold flex-shrink-0">
                           {s.name?.charAt(0).toUpperCase()}
                         </div>
                         <span className="font-medium text-[#083067] dark:text-white">{s.name}</span>
@@ -190,7 +190,7 @@ const Students = () => {
         </div>
 
         <div className="p-4 border-t border-gray-100 dark:border-gray-700 text-center">
-          <p className="text-xs text-gray-400">
+          <p className="text-[10px] sm:text-xs text-gray-400">
             Showing {filtered.length} of {students.length} students
           </p>
         </div>
@@ -216,7 +216,7 @@ const Students = () => {
                       <h3 className="text-sm font-bold text-[#083067] dark:text-white">
                         {selectedStudent?.user?.name}
                       </h3>
-                      <p className="text-xs text-gray-400">{selectedStudent?.user?.email}</p>
+                      <p className="text-[10px] sm:text-xs text-gray-400">{selectedStudent?.user?.email}</p>
                     </div>
                   </div>
                   <button
@@ -257,7 +257,7 @@ const Students = () => {
                   )}
 
                   {!selectedStudent?.profile && (
-                    <p className="text-xs text-gray-400 text-center py-2">
+                    <p className="text-[10px] sm:text-xs text-gray-400 text-center py-2">
                       Profile not completed yet
                     </p>
                   )}
@@ -288,8 +288,8 @@ function Section({ title, children }) {
 function Row({ label, value }) {
   return (
     <div className="flex items-center justify-between">
-      <span className="text-xs text-gray-400">{label}</span>
-      <span className="text-xs font-medium text-[#083067] dark:text-white">
+      <span className="text-[10px] sm:text-xs text-gray-400">{label}</span>
+      <span className="text-[10px] sm:text-xs font-medium text-[#083067] dark:text-white">
         {value || "—"}
       </span>
     </div>
