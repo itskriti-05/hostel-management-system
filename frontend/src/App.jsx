@@ -22,6 +22,7 @@ import WardenProfile from "./pages/WardenDashboard/WardenProfile";
 import Students from "./pages/WardenDashboard/Students";
 import Staff from "./pages/WardenDashboard/Staff";
 import Matches from "./pages/WardenDashboard/Matches";
+import ManageMenu from "./pages/WardenDashboard/ManageMenu";
 
 // #083067
 
@@ -64,6 +65,8 @@ const App = () => {
               <Route path="matches" element={<Matches />} />
               <Route path="staff" element={<Staff />} />
               <Route path="profile" element={<WardenProfile />} />
+              <Route path="menu" element={<ManageMenu />} />
+
             </Route>
           </Routes>
         </BrowserRouter>

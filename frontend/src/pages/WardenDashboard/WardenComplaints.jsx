@@ -9,6 +9,7 @@ import {
   Clock,
   Search,
   X,
+  ChevronRight,
 } from "lucide-react";
 
 const WardenComplaints = () => {
@@ -81,7 +82,7 @@ const WardenComplaints = () => {
       <PageHeader title={"Complaints"} />
 
       {/* ststs cards */}
-      <div className="grid grid-cols-3 gap-4 mb-6">
+      <div className="grid grid-cols-3 gap-2 mb-6">
         <StatSquare
           icon={
             <ClipboardList className="w-4 h-4 text-[#083067] dark:text-white" />
@@ -116,11 +117,11 @@ const WardenComplaints = () => {
 
       {/* table now */}
       <div className="bg-white dark:bg-[#1A2F42] rounded-2xl shadow-sm p-6">
-        <h2 className="text-lg font-semibold text-[#083067] dark:text-white mb-4">
+        <h2 className="text-lg font-semibold text-[#083067] dark:text-white mb-1">
           Active Complaints
         </h2>
         {/* Search bar */}
-        <div className="bg-white dark:bg-[#1A2F42] rounded-2xl shadow-sm mb-6">
+        <div className="mb-4">
           <div className="p-4 border-b border-gray-100 dark:border-gray-700">
             <div className="relative max-w-sm">
               <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
@@ -135,7 +136,7 @@ const WardenComplaints = () => {
           </div>
 
           {/* Table */}
-          <div className="overflow-x-auto">
+          <div className="hidden lg:block overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-gray-100 dark:border-gray-700 text-left">
@@ -234,6 +235,64 @@ const WardenComplaints = () => {
             </table>
           </div>
 
+          <div className="lg:hidden">
+            {filtered.length === 0 ? (
+              <p className="py-10 text-center text-sm text-gray-400">
+                No complaints found
+              </p>
+            ) : (
+              filtered.map((c, index) => (
+                <div
+                  key={c._id}
+                  className={`flex items-center justify-between p-4 cursor-pointer hover:bg-gray-50 dark:hover:bg-white/5 transition-colors ${
+                    index !== filtered.length - 1
+                      ? "border-b border-gray-100 dark:border-gray-700"
+                      : ""
+                  }`}
+                  onClick={() => setSelectedComplaint(c)}
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-[#083067] flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
+                      {c.userId?.name?.charAt(0).toUpperCase() || "?"}
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-[#083067] dark:text-white">
+                        {c.title}
+                      </p>
+                      <p className="text-xs text-gray-400 mt-0.5">
+                        {c.userId?.name || "Unknown"} • Room {c.roomId || "—"}
+                      </p>
+                      <div className="flex items-center gap-2 mt-1">
+                        <span
+                          className={`text-[10px] px-2 py-0.5 rounded-full font-semibold ${
+                            c.status === "PENDING"
+                              ? "bg-amber-50 text-amber-600"
+                              : c.status === "IN_PROGRESS"
+                                ? "bg-blue-50 text-blue-500"
+                                : "bg-emerald-50 text-emerald-600"
+                          }`}
+                        >
+                          {c.status}
+                        </span>
+                        <span
+                          className={`text-[10px] px-2 py-0.5 rounded-full font-semibold ${
+                            c.priority === "HIGH"
+                              ? "bg-red-50 text-red-600"
+                              : c.priority === "MEDIUM"
+                                ? "bg-orange-50 text-orange-600"
+                                : "bg-gray-100 text-gray-500"
+                          }`}
+                        >
+                          {c.priority}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <ChevronRight className="w-4 h-4 text-gray-300 flex-shrink-0 ml-2" />
+                </div>
+              ))
+            )}
+          </div>
           <div className="p-4 border-t border-gray-100 dark:border-gray-700 text-center">
             <p className="text-[10px] sm:text-xs text-gray-400">
               Showing {filtered.length} of {complaints.length} complaints
@@ -344,25 +403,18 @@ const WardenComplaints = () => {
   );
 };
 
-function StatSquare({ icon, iconBg, value, label, badge, badgeColor }) {
+function StatSquare({ icon, iconBg, value, label }) {
   return (
-    <div className="bg-white dark:bg-[#1A2F42] rounded-2xl p-5 shadow-sm">
-      <div className="flex items-center justify-between mb-3">
-        <div
-          className={`w-9 h-9 ${iconBg} rounded-lg flex items-center justify-center`}
-        >
-          {icon}
-        </div>
-        <span
-          className={`text-[10px] px-2 py-1 rounded-full font-medium ${badgeColor}`}
-        >
-          {badge}
-        </span>
+    <div className="bg-white dark:bg-[#1A2F42] rounded-xl p-2 sm:p-4 border border-gray-100 dark:border-gray-700 shadow-sm">
+      <div
+        className={`w-9 h-9 ${iconBg} rounded-lg flex items-center justify-center mb-3`}
+      >
+        {icon}
       </div>
       <div className="text-2xl font-bold text-[#083067] dark:text-white">
         {String(value).padStart(2, "0")}
       </div>
-      <div className="text-[10px] font-medium text-gray-400 tracking-wider mt-1">
+      <div className="text-[9px] sm:text-[10px] font-medium text-gray-600 dark:text-gray-400 tracking-wider mt-1">
         {label}
       </div>
     </div>

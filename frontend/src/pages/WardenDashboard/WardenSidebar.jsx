@@ -4,7 +4,7 @@ import { useTheme } from '../../context/ThemeContext'
 import { useNavigate, useLocation } from 'react-router-dom'
 import {
   LayoutDashboard, Users, AlertCircle, Star,
-  UserPlus, User, LogOut, Sun, Moon, Heart
+  UserPlus, User, LogOut, Sun, Moon, Heart,UtensilsCrossed
 } from "lucide-react";
 
 const navItems = [
@@ -15,6 +15,7 @@ const navItems = [
   { label: "Roommate Match", icon: Users, path: "/warden-dashboard/matches" },
   { label: "Add Staff", icon: UserPlus, path: "/warden-dashboard/staff" },
   { label: "Profile", icon: User, path: "/warden-dashboard/profile" },
+  { label: "Mess Menu", icon: UtensilsCrossed, path: "/warden-dashboard/menu" },
 ];
 
 const WardenSidebar = () => {
@@ -28,7 +29,7 @@ const WardenSidebar = () => {
     navigate("/login");
   }
   return (
-    <aside className="fixed left-0 top-0 h-screen w-56 bg-white dark:bg-[#1A2F42] flex flex-col z-40 border-r border-gray-100 dark:border-gray-700">
+    <aside className="hidden lg:flex fixed left-0 top-0 h-screen w-56 bg-white dark:bg-[#1A2F42] flex-col z-40 border-r border-gray-100 dark:border-gray-700">
       {/* Logo */}
       <div className="px-5 py-5 border-b border-gray-100 dark:border-gray-700">
         <span className="text-lg font-bold text-[#083067] dark:text-white">

@@ -18,7 +18,7 @@ export default function MobileHeader() {
       {/* Logo + Name on left */}
       <div className="flex items-center gap-2">
         <img src="/logo.jpg" alt="HostelEzz" className="h-8 w-8" />
-        <span className="text-base font-bold text-[#083067] dark:text-white">
+        <span className="text-sm font-bold text-[#083067] dark:text-white">
           Hostel<span className="text-blue-400">Ezz</span>
         </span>
       </div>

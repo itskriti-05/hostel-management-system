@@ -131,10 +131,10 @@ const WardenFeedback = () => {
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-gray-100 dark:border-gray-700 text-left text-gray-500 uppercase text-[10px] sm:text-xs">
-                <th className="pb-3">Student</th>
-                <th className="pb-3">Rating</th>
-                <th className="pb-3">Feedback</th>
-                <th className="pb-3">Date</th>
+                <th className="pb-2">Student</th>
+                <th className="pb-2">Rating</th>
+                <th className="pb-2">Feedback</th>
+                <th className="pb-2">Date</th>
               </tr>
             </thead>
 
