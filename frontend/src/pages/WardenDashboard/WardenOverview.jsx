@@ -13,6 +13,7 @@ import {
 import { User } from "lucide-react";
 
 import { useAuth } from "../../context/AuthContext";
+import PageHeader from "../../components/PageHeader";
 
 function StatCard({
   icon: Icon,
@@ -163,19 +164,9 @@ export default function WardenOverview() {
     <>
       <div className="p-4 lg:p-6 bg-[#f8f9ff] dark:bg-[#0F1F2E] min-h-screen">
         {/* Header */}
-        <div className="mb-6">
-          <h1 className="text-lg font-semibold text-[#083067] dark:text-white">
-            Dashboard Overview
-          </h1>
-          <p className="text-sm text-gray-400 mt-1">
-            {new Date().toLocaleDateString("en-US", {
-              weekday: "long",
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            })}
-          </p>
-        </div>
+       <PageHeader 
+       title={"Dashboard Overview"}
+       />
 
         {/* Stat cards */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
@@ -212,28 +203,24 @@ export default function WardenOverview() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Recent complaints */}
           <div className="lg:col-span-2 bg-white dark:bg-[#1A2F42] rounded-2xl shadow-sm p-5">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-sm font-semibold text-[#083067] dark:text-white">
+            <div className="mb-5">
+              <h2 className="text-lg font-semibold text-[#083067] dark:text-white">
                 Recent Complaint Logs
               </h2>
-              <button
-                onClick={() => navigate("/warden-dashboard/complaints")}
-                className="text-[9px] sm:text-xs text-blue-400 hover:underline"
-              >
-                VIEW ALL
-              </button>
             </div>
 
-            <div className="overflow-x-auto">
-              <table className="w-full text-[9px] sm:text-xs">
+            {/* Desktop */}
+            <div className="hidden lg:block overflow-x-auto">
+              <table className="w-full text-sm">
                 <thead>
-                  <tr className="text-gray-400 uppercase tracking-wider border-b border-gray-100 dark:border-gray-700">
+                  <tr className="text-gray-500 uppercase text-xs border-b border-gray-100 dark:border-gray-700">
                     <th className="text-left pb-2 font-medium">Student</th>
                     <th className="text-left pb-2 font-medium">Title</th>
                     <th className="text-left pb-2 font-medium">Priority</th>
                     <th className="text-left pb-2 font-medium">Status</th>
                   </tr>
                 </thead>
+
                 <tbody className="divide-y divide-gray-50 dark:divide-gray-700">
                   {complaints.length === 0 ? (
                     <tr>
@@ -250,16 +237,19 @@ export default function WardenOverview() {
                         key={c._id}
                         className="hover:bg-gray-50 dark:hover:bg-white/5"
                       >
-                        <td className="py-3 text-[#083067] dark:text-white font-medium">
+                        <td className="py-4 font-semibold text-[#083067] dark:text-white">
                           {c.userId?.name || "Student"}
                         </td>
-                        <td className="py-3 text-gray-500 dark:text-gray-400 truncate max-w-[120px]">
+
+                        <td className="py-4 text-gray-500 dark:text-gray-400">
                           {c.title}
                         </td>
-                        <td className="py-3">
+
+                        <td className="py-4">
                           <PriorityBadge priority={c.priority} />
                         </td>
-                        <td className="py-3">
+
+                        <td className="py-4">
                           <StatusBadge status={c.status} />
                         </td>
                       </tr>
@@ -267,13 +257,79 @@ export default function WardenOverview() {
                   )}
                 </tbody>
               </table>
+
+              <button
+                onClick={() => navigate("/warden-dashboard/complaints")}
+                className="w-full mt-5 py-2.5 rounded-xl border border-gray-200 dark:border-gray-700 text-sm font-medium text-[#083067] dark:text-white hover:bg-gray-50 dark:hover:bg-white/5"
+              >
+                View All Complaints
+              </button>
+            </div>
+
+            {/* Mobile */}
+            <div className="lg:hidden space-y-3">
+              {complaints.length === 0 ? (
+                <div className="text-center py-6 text-gray-400">
+                  No complaints yet
+                </div>
+              ) : (
+                complaints.map((c) => (
+                  <div
+                    key={c._id}
+                    className="rounded-xl border border-gray-100 dark:border-gray-700 bg-white dark:bg-[#162636] p-3"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-[#083067] flex items-center justify-center text-white font-semibold">
+                        {c.userId?.name?.charAt(0).toUpperCase()}
+                      </div>
+
+                      <div>
+                        <p className="text-sm font-semibold text-[#083067] dark:text-white">
+                          {c.userId?.name || "Student"}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="mt-4">
+                      <p className="text-sm font-medium text-[#083067] dark:text-white mt-1">
+                        {c.title}
+                      </p>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-5 mt-5">
+                      <div>
+                        <p className="text-[11px] text-gray-400 uppercase mb-1">
+                          Priority
+                        </p>
+
+                        <PriorityBadge priority={c.priority} />
+                      </div>
+
+                      <div>
+                        <p className="text-[11px] text-gray-400 uppercase mb-1">
+                          Status
+                        </p>
+
+                        <StatusBadge status={c.status} />
+                      </div>
+                    </div>
+                  </div>
+                ))
+              )}
+
+              <button
+                onClick={() => navigate("/warden-dashboard/complaints")}
+                className="w-full py-2.5 rounded-xl border border-gray-200 dark:border-gray-700 text-sm font-medium text-[#083067] dark:text-white hover:bg-gray-50 dark:hover:bg-white/5"
+              >
+                View All Complaints
+              </button>
             </div>
           </div>
 
           {/* New registrations */}
           <div className="bg-white dark:bg-[#1A2F42] rounded-2xl shadow-sm p-5">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-sm font-semibold text-[#083067] dark:text-white">
+           <h2 className="text-lg font-semibold text-[#083067] dark:text-white">
                 New Registrations
               </h2>
             </div>
@@ -287,17 +343,17 @@ export default function WardenOverview() {
                 students.map((s) => (
                   <div
                     key={s.id}
-                    className="flex items-center gap-3 p-3 hover:bg-gray-50 dark:hover:bg-white/5 rounded-xl cursor-pointer"
+                 className="flex items-center gap-3 p-4 hover:bg-gray-50 dark:hover:bg-white/5 rounded-xl transition-colors cursor-pointer"
                     onClick={() => navigate("/warden-dashboard/students")}
                   >
-                    <div className="w-8 h-8 lg:w-9 lg:h-9 rounded-full bg-gradient-to-br from-blue-400 to-[#083067] flex items-center justify-center text-white text-[9px] sm:text-xs font-bold flex-shrink-0">
+                   <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-[#083067] flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
                       {s.name?.charAt(0).toUpperCase()}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-[9px] sm:text-xs font-semibold text-[#083067] dark:text-white truncate">
+                      <p className="text-sm font-semibold text-[#083067] dark:text-white truncate">
                         {s.name}
                       </p>
-                      <p className="text-[10px] text-gray-400">
+                      <p className="text-xs text-gray-400">
                         {s.room !== "Not Assigned"
                           ? `Room ${s.room}`
                           : "Room not assigned"}
@@ -313,7 +369,7 @@ export default function WardenOverview() {
 
             <button
               onClick={() => navigate("/warden-dashboard/students")}
-              className="w-full mt-4 py-2 text-[9px] sm:text-xs font-medium text-[#083067] dark:text-white border border-gray-100 dark:border-gray-700 rounded-xl hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
+              className="w-full mt-5 py-2.5 text-sm font-medium text-[#083067] dark:text-white border border-gray-100 dark:border-gray-700 rounded-xl hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
             >
               All New Students
             </button>

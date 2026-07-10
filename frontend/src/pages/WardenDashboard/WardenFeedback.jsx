@@ -4,6 +4,7 @@ import api from "../../api/axios";
 import PageHeader from "../../components/PageHeader";
 import { MessageSquare, Star, Trophy } from "lucide-react";
 import { Star as StarIcon } from "lucide-react";
+import StatsSquare from "../../components/StatsSquare";
 
 const WardenFeedback = () => {
   const [feedbacks, setFeedbacks] = useState([]);
@@ -32,9 +33,9 @@ const WardenFeedback = () => {
 
       const average =
         total > 0
-          ? (
-              data.reduce((sum, item) => sum + item.rating, 0) / total
-            ).toFixed(1)
+          ? (data.reduce((sum, item) => sum + item.rating, 0) / total).toFixed(
+              1,
+            )
           : 0;
 
       const fiveStar = data.filter((item) => item.rating === 5).length;
@@ -71,54 +72,44 @@ const WardenFeedback = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <p className="text-[#083067] dark:text-white font-medium">
-          Loading...
-        </p>
+        <p className="text-[#083067] dark:text-white font-medium">Loading...</p>
       </div>
     );
   }
 
   return (
-    <div className="p-6 bg-[#F8F9FF] dark:bg-[#0F1F2E] min-h-screen">
-      <PageHeader title="Student Feedback" />
+    <div className="p-4 lg:p-6 bg-[#f8f9ff] dark:bg-[#0F1F2E] min-h-screen">
+      <PageHeader
+        title="Student Feedback"
+        showBack
+        backTo="/warden-dashboard"
+      />
 
       {/* Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-        <div className="bg-white dark:bg-[#1A2F42] rounded-2xl p-5 shadow-sm">
-          <div className="w-10 h-10 bg-[#D8E7FF] rounded-xl flex items-center justify-center mb-3">
-            <Star className="w-5 h-5 text-[#083067] dark:text-white" />
-          </div>
 
-          <h2 className="text-2xl font-bold text-[#083067] dark:text-white">
-            {stats.average} / 5
-          </h2>
+      <div className="grid grid-cols-3 gap-2 lg:gap-4 mb-6">
+        <StatsSquare
+          icon={<Star className="w-4 h-4 text-[#083067] dark:text-white" />}
+          iconBg="bg-[#d5e3ff] dark:bg-blue-900/20"
+          value={`${stats.average}/5`}
+          label="AVERAGE RATING"
+        />
 
-          <p className="text-[10px] sm:text-xs text-gray-400 mt-1">Average Rating</p>
-        </div>
+        <StatsSquare
+          icon={
+            <MessageSquare className="w-4 h-4 text-[#083067] dark:text-white" />
+          }
+          iconBg="bg-[#d5e3ff] dark:bg-blue-900/20"
+          value={String(stats.total).padStart(2, "0")}
+          label="TOTAL FEEDBACK"
+        />
 
-        <div className="bg-white dark:bg-[#1A2F42] rounded-2xl p-5 shadow-sm">
-          <div className="w-10 h-10 bg-[#D8E7FF] rounded-xl flex items-center justify-center mb-3">
-            <MessageSquare className="w-5 h-5 text-[#083067] dark:text-white" />
-          </div>
-
-          <h2 className="text-2xl font-bold text-[#083067] dark:text-white">
-            {stats.total}
-          </h2>
-
-          <p className="text-[10px] sm:text-xs text-gray-400 mt-1">Total Feedback</p>
-        </div>
-
-        <div className="bg-white dark:bg-[#1A2F42] rounded-2xl p-5 shadow-sm">
-          <div className="w-10 h-10 bg-[#D8E7FF] rounded-xl flex items-center justify-center mb-3">
-            <Trophy className="w-5 h-5 text-[#083067] dark:text-white" />
-          </div>
-
-          <h2 className="text-2xl font-bold text-[#083067] dark:text-white">
-            {stats.fiveStar}
-          </h2>
-
-          <p className="text-[10px] sm:text-xs text-gray-400 mt-1">5 Star Reviews</p>
-        </div>
+        <StatsSquare
+          icon={<Trophy className="w-4 h-4 text-[#083067] dark:text-white" />}
+          iconBg="bg-[#d5e3ff] dark:bg-emerald-900/20"
+          value={String(stats.fiveStar).padStart(2, "0")}
+          label="5 STAR REVIEWS"
+        />
       </div>
 
       {/* Table */}
@@ -127,7 +118,7 @@ const WardenFeedback = () => {
           Student Feedback
         </h2>
 
-        <div className="overflow-x-auto">
+        <div className="hidden lg:block overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-gray-100 dark:border-gray-700 text-left text-gray-500 uppercase text-[10px] sm:text-xs">
@@ -141,10 +132,7 @@ const WardenFeedback = () => {
             <tbody className="divide-y divide-gray-100 dark:divide-gray-700">
               {feedbacks.length === 0 ? (
                 <tr>
-                  <td
-                    colSpan={4}
-                    className="py-8 text-center text-gray-400"
-                  >
+                  <td colSpan={4} className="py-8 text-center text-gray-400">
                     No feedback available.
                   </td>
                 </tr>
@@ -172,9 +160,7 @@ const WardenFeedback = () => {
                       </div>
                     </td>
 
-                    <td className="py-4">
-                      {renderStars(feedback.rating)}
-                    </td>
+                    <td className="py-4">{renderStars(feedback.rating)}</td>
 
                     <td className="py-4 max-w-md">
                       <p className="truncate text-gray-600 dark:text-gray-400 dark:text-gray-300">
@@ -189,7 +175,7 @@ const WardenFeedback = () => {
                           day: "2-digit",
                           month: "short",
                           year: "numeric",
-                        }
+                        },
                       )}
                     </td>
                   </tr>
@@ -197,6 +183,52 @@ const WardenFeedback = () => {
               )}
             </tbody>
           </table>
+        </div>
+        <div className="lg:hidden space-y-3">
+          {feedbacks.length === 0 ? (
+            <div className="text-center text-gray-400 py-8">
+              No feedback available.
+            </div>
+          ) : (
+            feedbacks.map((feedback) => (
+              <div
+                key={feedback._id}
+                className="rounded-xl border border-gray-100 dark:border-gray-700 bg-white dark:bg-[#162636] p-4"
+              >
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-400 to-[#083067] flex items-center justify-center text-white font-semibold">
+                    {feedback.userId?.name?.charAt(0).toUpperCase()}
+                  </div>
+
+                  <div>
+                    <p className="font-medium text-[#083067] dark:text-white">
+                      {feedback.userId?.name}
+                    </p>
+
+                    <p className="text-xs text-gray-400">
+                      {feedback.userId?.email}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-between mb-3">
+                  {renderStars(feedback.rating)}
+
+                  <span className="text-[11px] text-gray-400">
+                    {new Date(feedback.createdAt).toLocaleDateString("en-GB", {
+                      day: "2-digit",
+                      month: "short",
+                      year: "numeric",
+                    })}
+                  </span>
+                </div>
+
+                <p className="text-sm font-medium text-gray-700 dark:text-gray-200 leading-relaxed">
+                  {feedback.comment}
+                </p>
+              </div>
+            ))
+          )}
         </div>
       </div>
     </div>

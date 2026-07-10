@@ -35,7 +35,7 @@ router.put("/:id", auth, async (req, res) => {
     const menu = await Menu.findByIdAndUpdate(
       req.params.id,
       { meals },
-      { new: true }
+     { returnDocument: "after" }
     );
 
     if (!menu) {

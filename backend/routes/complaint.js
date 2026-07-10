@@ -59,7 +59,7 @@ router.put("/:id", auth, async (req, res) => {
     const complaint = await Complaint.findByIdAndUpdate(
       req.params.id,
       { status, priority },
-      { new: true }
+      { returnDocument: "after" }
     );
 
     if (!complaint) {

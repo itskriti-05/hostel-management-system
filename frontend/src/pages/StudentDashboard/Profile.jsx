@@ -285,7 +285,7 @@ export default function Profile() {
 
             <div className="bg-white dark:bg-[#1A2F42] rounded-2xl p-6 shadow-sm">
               <SectionHeader icon={Building2} title="Personal Details" />
-              <div className="space-y-5">
+              <div className="space-y-4 lg:space-y-5">
                 <div>
                   <label className="block text-[10px] sm:text-xs font-medium text-gray-500 mb-2">
                     Gender
@@ -437,7 +437,7 @@ export default function Profile() {
         {/* Personal Info */}
         <div className="bg-white dark:bg-[#1A2F42] rounded-2xl p-4 sm:p-5 shadow-sm">
           <SectionHeader icon={User} title="Personal Info" />
-          <div className="space-y-5">
+          <div className="space-y-4 lg:space-y-5">
             <InfoField label="Full Name" value={profile?.name} />
             <InfoField label="Email Address" value={user?.email} />
             <InfoField label="Contact Number" value={profile?.contactNo} />
@@ -447,7 +447,7 @@ export default function Profile() {
         {/* Academic Details */}
         <div className="bg-white dark:bg-[#1A2F42] rounded-2xl p-4 sm:p-5 shadow-sm">
           <SectionHeader icon={GraduationCap} title="Academic Details" />
-          <div className="space-y-5">
+          <div className="space-y-4 lg:space-y-5">
             <InfoField label="Branch / Major" value={profile?.branch} />
             <InfoField
               label="Academic Year"
@@ -459,7 +459,7 @@ export default function Profile() {
         {/* Hostel Details */}
         <div className="bg-white dark:bg-[#1A2F42] rounded-2xl p-4 sm:p-5 shadow-sm">
           <SectionHeader icon={Building2} title="Hostel Details" />
-          <div className="space-y-5">
+          <div className="space-y-4 lg:space-y-5">
             <InfoField label="Gender" value={profile?.gender} />
             <InfoField
               label="Hostel Type"

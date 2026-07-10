@@ -2,8 +2,14 @@ import { useState, useEffect } from "react";
 import api from "../../api/axios";
 import PageHeader from "../../components/PageHeader";
 import {
-  Users, Play, Home, Plus, X,
-  CheckCircle, Clock, AlertCircle
+  Users,
+  Play,
+  Home,
+  Plus,
+  X,
+  CheckCircle,
+  Clock,
+  AlertCircle,
 } from "lucide-react";
 
 function StatusBadge({ status }) {
@@ -14,9 +20,37 @@ function StatusBadge({ status }) {
   };
   const s = map[status] || map.INCOMPLETE;
   return (
-    <span className={`text-[10px] px-2 py-1 rounded-full font-semibold ${s.color}`}>
+    <span
+      className={`text-[10px] px-2 py-1 rounded-full font-semibold ${s.color}`}
+    >
       {s.label}
     </span>
+  );
+}
+
+function StatSquare({ icon, iconBg, value, label, description }) {
+  return (
+    <div className="bg-white dark:bg-[#1A2F42] rounded-xl p-2 sm:p-4 border border-gray-100 dark:border-gray-700 shadow-sm">
+      <div
+        className={`w-9 h-9 ${iconBg} rounded-lg flex items-center justify-center mb-3`}
+      >
+        {icon}
+      </div>
+
+      <div className="text-2xl font-bold text-[#083067] dark:text-white">
+        {String(value).padStart(2, "0")}
+      </div>
+
+      <div className="text-[9px] sm:text-[10px] font-medium text-gray-600 dark:text-gray-400 tracking-wider mt-1 uppercase">
+        {label}
+      </div>
+
+      {description && (
+        <p className="mt-1 text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 leading-relaxed">
+          {description}
+        </p>
+      )}
+    </div>
   );
 }
 
@@ -78,7 +112,9 @@ export default function Matches() {
     if (!roomId.trim()) return;
     setAssigning(true);
     try {
-      await api.put(`/api/matching/${selectedMatch._id}/assign-room`, { roomId });
+      await api.put(`/api/matching/${selectedMatch._id}/assign-room`, {
+        roomId,
+      });
       setShowAssignModal(false);
       fetchMatches();
     } catch (err) {
@@ -99,7 +135,7 @@ export default function Matches() {
         api.get("/api/matching/all"),
       ]);
       const matchedIds = new Set(
-        matchesRes.data.flatMap((m) => m.students.map((s) => s._id))
+        matchesRes.data.flatMap((m) => m.students.map((s) => s._id)),
       );
       const unmatched = studentsRes.data.filter((s) => !matchedIds.has(s.id));
       setUnmatchedStudents(unmatched);
@@ -139,13 +175,21 @@ export default function Matches() {
   }
 
   return (
-    <div className="p-6 bg-[#f8f9ff] dark:bg-[#0F1F2E] min-h-screen">
-      <div className="flex items-center justify-between mb-6">
+    <div className="p-4 lg:p-6 bg-[#f8f9ff] dark:bg-[#0F1F2E] min-h-screen">
+      <div className="mb-6">
         <PageHeader title="Roommate Matches" />
         <button
           onClick={runMatching}
           disabled={running}
-          className="flex items-center gap-2 px-5 py-2.5 bg-[#083067] hover:bg-[#0a3d80] text-white text-sm font-semibold rounded-xl transition-colors disabled:opacity-60"
+          className="lg:hidden mt-3 flex items-center justify-center gap-2 px-5 py-2.5 bg-[#083067] hover:bg-[#0a3d80] text-white text-sm font-semibold rounded-xl transition-colors disabled:opacity-60"
+        >
+          <Play className="w-4 h-4" />
+          {running ? "Running..." : "Run Matching Algorithm"}
+        </button>
+        <button
+          onClick={runMatching}
+          disabled={running}
+          className="hidden lg:flex items-center gap-2 px-5 py-2.5 bg-[#083067] hover:bg-[#0a3d80] text-white text-sm font-semibold rounded-xl transition-colors disabled:opacity-60 absolute top-6 right-6"
         >
           <Play className="w-4 h-4" />
           {running ? "Running..." : "Run Matching Algorithm"}
@@ -161,33 +205,29 @@ export default function Matches() {
 
       {/* Stats */}
       <div className="grid grid-cols-3 gap-4 mb-6">
-        <div className="bg-white dark:bg-[#1A2F42] rounded-2xl p-5 shadow-sm flex items-center gap-4">
-          <div className="w-10 h-10 bg-amber-50 rounded-xl flex items-center justify-center">
-            <Clock className="w-5 h-5 text-amber-500" />
-          </div>
-          <div>
-            <p className="text-2xl font-bold text-[#083067] dark:text-white">{incomplete.length}</p>
-            <p className="text-[10px] sm:text-xs text-gray-400">Incomplete Groups</p>
-          </div>
-        </div>
-        <div className="bg-white dark:bg-[#1A2F42] rounded-2xl p-5 shadow-sm flex items-center gap-4">
-          <div className="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center">
-            <Users className="w-5 h-5 text-blue-500" />
-          </div>
-          <div>
-            <p className="text-2xl font-bold text-[#083067] dark:text-white">{complete.length}</p>
-            <p className="text-[10px] sm:text-xs text-gray-400">Awaiting Room Assignment</p>
-          </div>
-        </div>
-        <div className="bg-white dark:bg-[#1A2F42] rounded-2xl p-5 shadow-sm flex items-center gap-4">
-          <div className="w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center">
-            <CheckCircle className="w-5 h-5 text-emerald-500" />
-          </div>
-          <div>
-            <p className="text-2xl font-bold text-[#083067] dark:text-white">{confirmed.length}</p>
-            <p className="text-[10px] sm:text-xs text-gray-400">Confirmed</p>
-          </div>
-        </div>
+        <StatSquare
+          icon={<Clock className="w-5 h-5 text-amber-500" />}
+          iconBg="bg-amber-50"
+          value={incomplete.length}
+          label="INCOMPLETE"
+          subtitle="Need more students"
+        />
+
+        <StatSquare
+          icon={<Users className="w-5 h-5 text-blue-500" />}
+          iconBg="bg-blue-50"
+          value={complete.length}
+          label="AWAITING ROOM"
+          subtitle="Ready to assign"
+        />
+
+        <StatSquare
+          icon={<CheckCircle className="w-5 h-5 text-emerald-500" />}
+          iconBg="bg-emerald-50"
+          value={confirmed.length}
+          label="CONFIRMED"
+          subtitle="Room assigned"
+        />
       </div>
 
       {/* Matches list */}
@@ -202,85 +242,164 @@ export default function Matches() {
           </p>
         </div>
       ) : (
-        <div className="space-y-4">
-          {matches.map((match) => {
-            const targetSize = roomTypeToNumber[match.roomType];
-            const currentSize = match.students.length;
-            return (
-              <div
-                key={match._id}
-                className="bg-white dark:bg-[#1A2F42] rounded-2xl p-4 lg:p-5 shadow-sm"
-              >
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-3">
-                    <StatusBadge status={match.status} />
-                    <span className="text-[10px] sm:text-xs text-gray-400">
-                      {match.hostelType.replace("_", " ")} ·{" "}
-                      {match.roomType} Room · {currentSize}/{targetSize} students
-                    </span>
-                    <span className="text-[10px] sm:text-xs font-semibold text-blue-400">
-                      {match.compatibilityScore}% compatible
-                    </span>
-                  </div>
+       <div className="space-y-4">
+  {matches.map((match) => {
+    const targetSize = roomTypeToNumber[match.roomType];
+    const currentSize = match.students.length;
 
-                  <div className="flex gap-2">
-                    {match.status === "INCOMPLETE" && (
-                      <button
-                        onClick={() => openAddModal(match)}
-                        className="flex items-center gap-1.5 px-3 py-1.5 border border-gray-200 dark:border-gray-600 rounded-lg text-[10px] sm:text-xs font-medium text-[#083067] dark:text-white hover:bg-gray-50 transition-colors"
-                      >
-                        <Plus className="w-3.5 h-3.5" />
-                        Add Student
-                      </button>
-                    )}
-                    {(match.status === "COMPLETE" || match.status === "INCOMPLETE") && (
-                      <button
-                        onClick={() => openAssignModal(match)}
-                        className="flex items-center gap-1.5 px-3 py-1.5 bg-[#083067] hover:bg-[#0a3d80] text-white rounded-lg text-[10px] sm:text-xs font-medium transition-colors"
-                      >
-                        <Home className="w-3.5 h-3.5" />
-                        Assign Room
-                      </button>
-                    )}
-                    {match.status === "CONFIRMED" && (
-                      <span className="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-50 text-emerald-600 rounded-lg text-[10px] sm:text-xs font-medium">
-                        <Home className="w-3.5 h-3.5" />
-                        Room {match.roomId}
-                      </span>
-                    )}
-                  </div>
+    return (
+      <div
+        key={match._id}
+        className="bg-white dark:bg-[#1A2F42] rounded-2xl p-4 lg:p-5 shadow-sm"
+      >
+        {/* ================= Desktop ================= */}
+        <div className="hidden lg:block">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-3">
+              <StatusBadge status={match.status} />
+
+              <span className="text-[10px] sm:text-xs text-gray-400">
+                {match.hostelType.replace("_", " ")} ·{" "}
+                {match.roomType} Room · {currentSize}/{targetSize} students
+              </span>
+
+              <span className="text-[10px] sm:text-xs font-semibold text-blue-400">
+                {match.compatibilityScore}% compatible
+              </span>
+            </div>
+
+            <div className="flex gap-2">
+              {match.students.length < roomTypeToNumber[match.roomType] && (
+                <button
+                  onClick={() => openAddModal(match)}
+                  className="flex items-center gap-1.5 px-3 py-1.5 border border-gray-200 dark:border-gray-600 rounded-lg text-[10px] sm:text-xs font-medium text-[#083067] dark:text-white hover:bg-gray-50 transition-colors"
+                >
+                  <Plus className="w-3.5 h-3.5" />
+                  Add Student
+                </button>
+              )}
+
+              {(match.status === "COMPLETE" ||
+                match.status === "INCOMPLETE") && (
+                <button
+                  onClick={() => openAssignModal(match)}
+                  className="flex items-center gap-1.5 px-3 py-1.5 bg-[#083067] hover:bg-[#0a3d80] text-white rounded-lg text-[10px] sm:text-xs font-medium transition-colors"
+                >
+                  <Home className="w-3.5 h-3.5" />
+                  Assign Room
+                </button>
+              )}
+
+              {match.status === "CONFIRMED" && (
+                <span className="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-50 text-emerald-600 rounded-lg text-[10px] sm:text-xs font-medium">
+                  <Home className="w-3.5 h-3.5" />
+                  Room {match.roomId}
+                </span>
+              )}
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-3">
+            {match.students.map((s) => (
+              <div
+                key={s._id}
+                className="flex items-center gap-3 bg-gray-50 dark:bg-[#162636] px-3 py-3 rounded-xl"
+              >
+                <div className="w-7 h-7 rounded-full bg-gradient-to-br from-blue-400 to-[#083067] flex items-center justify-center text-white text-xs font-bold">
+                  {s.name?.charAt(0).toUpperCase()}
                 </div>
 
-                {/* Students list */}
-                <div className="flex flex-wrap gap-3">
-                  {match.students.map((s) => (
-                    <div
-                      key={s._id}
-                      className="flex items-center gap-2 bg-gray-50 dark:bg-[#162636] px-3 py-2 rounded-xl"
-                    >
-                      <div className="w-7 h-7 rounded-full bg-gradient-to-br from-blue-400 to-[#083067] flex items-center justify-center text-white text-[10px] sm:text-xs font-bold">
-                        {s.name?.charAt(0).toUpperCase()}
-                      </div>
-                      <div>
-                        <p className="text-[10px] sm:text-xs font-medium text-[#083067] dark:text-white">
-                          {s.name}
-                        </p>
-                        <p className="text-[10px] text-gray-400">{s.email}</p>
-                      </div>
-                    </div>
-                  ))}
+                <div>
+                  <p className="text-xs font-medium text-[#083067] dark:text-white">
+                    {s.name}
+                  </p>
+                  <p className="text-[10px] text-gray-400">{s.email}</p>
                 </div>
               </div>
-            );
-          })}
+            ))}
+          </div>
         </div>
+
+        {/* ================= Mobile ================= */}
+        <div className="lg:hidden">
+          <div className="flex items-center justify-between">
+            <StatusBadge status={match.status} />
+
+            {match.status === "CONFIRMED" ? (
+              <span className="text-xs font-semibold text-emerald-600">
+                Room {match.roomId}
+              </span>
+            ) : (
+              <span className="text-xs font-semibold text-blue-500">
+                {match.compatibilityScore}% Match
+              </span>
+            )}
+          </div>
+
+          <div className="mt-3">
+            <p className="text-sm font-semibold text-[#083067] dark:text-white">
+              {match.hostelType.replace("_", " ")}
+            </p>
+
+            <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+              {match.roomType} Room • {currentSize}/{targetSize} Students
+            </p>
+          </div>
+
+          <div className="mt-4 space-y-2">
+            {match.students.map((s) => (
+              <div
+                key={s._id}
+                className="flex items-center gap-3 bg-gray-50 dark:bg-[#162636] rounded-xl px-3 py-3"
+              >
+                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-400 to-[#083067] flex items-center justify-center text-white text-xs font-bold">
+                  {s.name?.charAt(0).toUpperCase()}
+                </div>
+
+                <div>
+                  <p className="text-sm font-medium text-[#083067] dark:text-white">
+                    {s.name}
+                  </p>
+                  <p className="text-xs text-gray-400 truncate">
+                    {s.email}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-4 space-y-2">
+            {match.students.length < roomTypeToNumber[match.roomType] && (
+              <button
+                onClick={() => openAddModal(match)}
+                className="w-full border border-gray-200 dark:border-gray-600 rounded-xl py-2.5 text-sm font-medium text-[#083067] dark:text-white"
+              >
+                Add Student
+              </button>
+            )}
+
+            {(match.status === "COMPLETE" ||
+              match.status === "INCOMPLETE") && (
+              <button
+                onClick={() => openAssignModal(match)}
+                className="w-full bg-[#083067] text-white rounded-xl py-2.5 text-sm font-medium"
+              >
+                Assign Room
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
+    );
+  })}
+</div>
       )}
 
       {/* Assign Room Modal */}
       {showAssignModal && (
         <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div className="bg-white dark:bg-[#1A2F42] rounded-2xl shadow-xl w-full max-w-sm p-6">
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-4">
               <h3 className="text-sm font-bold text-[#083067] dark:text-white">
                 Assign Room
               </h3>
@@ -297,19 +416,19 @@ export default function Matches() {
               value={roomId}
               onChange={(e) => setRoomId(e.target.value)}
               placeholder="e.g. A-204"
-              className="w-full px-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-white/5 text-sm text-[#083067] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#083067]/20 mb-4"
+              className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-white/5 text-sm text-[#083067] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#083067]/20 mb-5"
             />
-            <div className="flex gap-3">
+            <div className="flex flex-col-reverse sm:flex-row gap-3">
               <button
                 onClick={() => setShowAssignModal(false)}
-                className="flex-1 py-2.5 rounded-xl border border-gray-200 text-sm font-medium text-gray-500 hover:bg-gray-50 transition-colors"
+                className="w-full sm:flex-1 py-2.5 rounded-xl border border-gray-200 dark:border-gray-600 text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
               >
                 Cancel
               </button>
               <button
                 onClick={handleAssignRoom}
                 disabled={assigning || !roomId.trim()}
-                className="flex-1 py-2.5 rounded-xl bg-[#083067] hover:bg-[#0a3d80] text-white text-sm font-semibold transition-colors disabled:opacity-60"
+                className="w-full sm:flex-1 py-2.5 rounded-xl bg-[#083067] hover:bg-[#0a3d80] text-white text-sm font-semibold transition-colors disabled:opacity-60"
               >
                 {assigning ? "Assigning..." : "Assign Room"}
               </button>
@@ -321,22 +440,22 @@ export default function Matches() {
       {/*Student Modal */}
       {showAddModal && (
         <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-white dark:bg-[#1A2F42] rounded-2xl shadow-xl w-full max-w-sm p-6">
+          <div className="bg-white dark:bg-[#1A2F42] rounded-2xl shadow-xl  w-full max-w-md p-5 sm:p-6">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-sm font-bold text-[#083067] dark:text-white">
+              <h3 className="text-base sm:text-lg font-bold text-[#083067] dark:text-white">
                 Add Student to Group
               </h3>
               <button onClick={() => setShowAddModal(false)}>
                 <X className="w-5 h-5 text-gray-400" />
               </button>
             </div>
-            <p className="text-[10px] sm:text-xs text-gray-400 mb-4">
+            <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-5">
               Select an unmatched student to add to this group.
             </p>
             <select
               value={selectedStudentId}
               onChange={(e) => setSelectedStudentId(e.target.value)}
-              className="w-full px-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-white/5 text-sm text-[#083067] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#083067]/20 mb-4"
+              className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-white/5 text-sm text-[#083067] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#083067]/20 mb-5"
             >
               <option value="">Select student...</option>
               {unmatchedStudents.map((s) => (
@@ -345,17 +464,17 @@ export default function Matches() {
                 </option>
               ))}
             </select>
-            <div className="flex gap-3">
+            <div className="flex flex-col-reverse sm:flex-row gap-3">
               <button
                 onClick={() => setShowAddModal(false)}
-                className="flex-1 py-2.5 rounded-xl border border-gray-200 text-sm font-medium text-gray-500 hover:bg-gray-50 transition-colors"
+                className="w-full sm:flex-1 py-2.5 rounded-xl border border-gray-200 dark:border-gray-600 text-sm font-medium text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
               >
                 Cancel
               </button>
               <button
                 onClick={handleAddStudent}
                 disabled={adding || !selectedStudentId}
-                className="flex-1 py-2.5 rounded-xl bg-[#083067] hover:bg-[#0a3d80] text-white text-sm font-semibold transition-colors disabled:opacity-60"
+                className="w-full sm:flex-1 py-2.5 rounded-xl bg-[#083067] hover:bg-[#0a3d80] text-white text-sm font-semibold transition-colors disabled:opacity-60"
               >
                 {adding ? "Adding..." : "Add Student"}
               </button>

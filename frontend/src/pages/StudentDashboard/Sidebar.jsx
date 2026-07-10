@@ -30,9 +30,20 @@ export default function SideBar() {
     <aside className="hidden lg:flex fixed left-0 top-0 h-screen w-56 bg-white dark:bg-[#1A2F42] flex-col z-40 border-r border-gray-100 dark:border-gray-700">
       {/* Logo */}
       <div className="px-5 py-5 border-b border-gray-100 dark:border-gray-700">
-        <span className="text-lg font-bold text-[#083067] dark:text-white">
-          Hostel<span className="text-blue-400">Ezz</span>
-        </span>
+        <div
+          onClick={() => navigate("/warden-dashboard")}
+          className="flex items-center gap-2 cursor-pointer"
+        >
+          <img
+            src="/logo.jpg"
+            alt="HostelEzz"
+            className="h-8 w-8"
+          />
+
+          <span className="text-lg font-bold text-[#083067] dark:text-white">
+            Hostel<span className="text-blue-400">Ezz</span>
+          </span>
+        </div>
       </div>
 
   

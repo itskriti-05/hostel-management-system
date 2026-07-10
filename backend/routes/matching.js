@@ -266,8 +266,11 @@ router.put("/:id/add-student", auth, async (req, res) => {
     const match = await RoommateMatch.findById(req.params.id);
 
     if (!match) return res.status(404).json({ message: "Match not found" });
-    if (match.status !== "INCOMPLETE")
-      return res.status(400).json({ message: "Match is not incomplete" });
+
+    const targetSize = roomTypeToNumber[match.roomType];
+if (match.students.length >= targetSize) {
+  return res.status(400).json({ message: "Group is already full" });
+}
 
     // Check student is not already in a match
     const existing = await RoommateMatch.findOne({ students: studentId });
@@ -277,7 +280,7 @@ router.put("/:id/add-student", auth, async (req, res) => {
     match.students.push(studentId);
 
     // Check if now complete
-    const targetSize = roomTypeToNumber[match.roomType];
+   
     if (match.students.length >= targetSize) {
       match.status = "COMPLETE";
     }

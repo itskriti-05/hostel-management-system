@@ -141,7 +141,7 @@ export default function WardenProfile() {
   }
 
   return (
-    <div className="p-6 bg-[#f8f9ff] dark:bg-[#0F1F2E] min-h-screen">
+    <div className="p-4 lg:p-6 bg-[#f8f9ff] dark:bg-[#0F1F2E] min-h-screen">
       <PageHeader title="Profile" 
       showBack
       backTo="/warden-dashboard" />
@@ -149,8 +149,8 @@ export default function WardenProfile() {
       {!showForm ? (
         <>
           {/* View card */}
-          <div className="bg-white dark:bg-[#1A2F42] rounded-2xl p-6 shadow-sm mb-6 flex items-center justify-between">
-            <div className="flex items-center gap-5">
+         <div className="bg-white dark:bg-[#1A2F42] rounded-2xl p-5 shadow-sm mb-6 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
+            <div className="flex flex-col lg:flex-row items-center lg:items-center gap-4 text-center lg:text-left">
               <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-400 to-[#083067] flex items-center justify-center text-white text-2xl font-bold flex-shrink-0">
                 {profile?.name?.charAt(0)?.toUpperCase()}
               </div>
@@ -164,17 +164,17 @@ export default function WardenProfile() {
                 </p>
               </div>
             </div>
-            <div className="flex gap-2">
+          <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
               <button
                 onClick={() => setShowPasswordModal(true)}
-                className="flex items-center gap-2 px-4 py-2.5 border border-gray-200 dark:border-gray-600 rounded-xl text-sm font-medium text-[#083067] dark:text-white hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
+                className="flex items-center gap-2 w-full sm:w-auto px-4 py-2.5 border border-gray-200 dark:border-gray-600 rounded-xl text-sm font-medium text-[#083067] dark:text-white hover:bg-gray-50 dark:hover:bg-white/5 transition-colors"
               >
                 <Lock className="w-4 h-4" />
                 Change Password
               </button>
               <button
                 onClick={() => setShowForm(true)}
-                className="flex items-center gap-2 px-4 py-2.5 bg-[#083067] hover:bg-[#0a3d80] text-white rounded-xl text-sm font-medium transition-colors"
+                className="flex items-center gap-2 w-full sm:w-auto px-4 py-2.5 bg-[#083067] hover:bg-[#0a3d80] text-white rounded-xl text-sm font-medium transition-colors"
               >
                 <Pencil className="w-4 h-4" />
                 Edit Profile
@@ -192,7 +192,7 @@ export default function WardenProfile() {
                 Personal Info
               </h3>
             </div>
-            <div className="grid grid-cols-2 gap-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               <InfoField label="Full Name" value={profile?.name} />
               <InfoField label="Email" value={profile?.email} />
               <InfoField label="Contact Number" value={profile?.contactNo} />
@@ -202,7 +202,7 @@ export default function WardenProfile() {
         </>
       ) : (
         /* Edit form */
-        <div className="bg-white dark:bg-[#1A2F42] rounded-2xl p-6 shadow-sm max-w-xl">
+        <div className="bg-white dark:bg-[#1A2F42] rounded-2xl p-6 shadow-sm max-w-xl mx-auto">
           <h3 className="text-sm font-semibold text-[#083067] dark:text-white mb-4">
             Edit Profile
           </h3>
@@ -236,7 +236,7 @@ export default function WardenProfile() {
 
             {formError && <p className="text-[10px] sm:text-xs text-red-500">{formError}</p>}
 
-            <div className="flex gap-3 pt-2">
+            <div className="flex flex-col-reverse sm:flex-row gap-3 pt-2">
               <button
                 type="button"
                 onClick={() => { setShowForm(false); setFormError(""); }}
@@ -260,7 +260,7 @@ export default function WardenProfile() {
       {/* Change password modal */}
       {showPasswordModal && (
         <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50 p-4">
-          <div className="bg-white dark:bg-[#1A2F42] rounded-2xl shadow-xl w-full max-w-sm p-6 relative">
+          <div className="bg-white dark:bg-[#1A2F42] rounded-2xl shadow-xl w-full max-w-sm p-5 sm:p-6 relative">
             <button
               onClick={() => setShowPasswordModal(false)}
               className="absolute top-5 right-5 text-gray-400 hover:text-gray-600 dark:text-gray-400"

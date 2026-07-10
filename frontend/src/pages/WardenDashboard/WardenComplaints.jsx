@@ -78,7 +78,7 @@ const WardenComplaints = () => {
     );
   }
   return (
-    <div className="p-6 bg-[#f8f9ff] dark:bg-[#0F1F2E] min-h-screen">
+    <div className="p-4 lg:p-6 bg-[#f8f9ff] dark:bg-[#0F1F2E] min-h-screen">
       <PageHeader title={"Complaints"} />
 
       {/* ststs cards */}

@@ -20,7 +20,7 @@ router.put("/:id", auth, async (req, res) => {
     const notification = await Notification.findByIdAndUpdate(
       req.params.id,
       { unread: false },
-      { new: true }
+     { returnDocument: "after" }
     );
 
     if (!notification) {

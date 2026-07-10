@@ -109,19 +109,19 @@ export default function ManageMenu() {
   }
 
   return (
-    <div className="p-6 bg-[#f8f9ff] dark:bg-[#0F1F2E] min-h-screen">
+    <div className="p-4 lg:p-6 bg-[#f8f9ff] dark:bg-[#0F1F2E] min-h-screen">
       <PageHeader title="Manage Mess Menu" />
 
-      <div className="max-w-2xl mx-auto">
+     <div className="max-w-2xl mx-auto w-full">
         {/* Day selector */}
-        <div className="bg-white dark:bg-[#1A2F42] rounded-2xl p-5 shadow-sm mb-5">
-          <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-2">
+        <div className="bg-white dark:bg-[#1A2F42] rounded-2xl p-4 lg:p-5 shadow-sm mb-5">
+         <label className="block text-sm font-medium text-[#083067] dark:text-white mb-2.5">
             Select Day
           </label>
           <select
             value={selectedDay}
             onChange={(e) => setSelectedDay(e.target.value)}
-            className="w-full px-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-600 bg-white dark:bg-white/5 text-sm text-[#083067] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#083067]/20"
+           className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-white/5 text-sm text-[#083067] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#083067]/20 placeholder-gray-300 dark:placeholder-gray-600"
           >
             {DAYS.map((day) => (
               <option key={day} value={day}>
@@ -132,7 +132,7 @@ export default function ManageMenu() {
         </div>
 
         {/* Meal inputs */}
-        <div className="bg-white dark:bg-[#1A2F42] rounded-2xl p-5 shadow-sm mb-5">
+        <div className="bg-white dark:bg-[#1A2F42] rounded-2xl p-4 lg:p-5 shadow-sm mb-5">
           <div className="flex items-center gap-2 mb-5">
             <UtensilsCrossed className="w-4 h-4 text-[#083067] dark:text-white" />
             <h2 className="text-sm font-semibold text-[#083067] dark:text-white">
@@ -140,7 +140,7 @@ export default function ManageMenu() {
             </h2>
           </div>
 
-          <div className="space-y-5">
+          <div className="space-y-4 lg:space-y-5">
             {MEALS.map((meal) => (
               <div key={meal}>
                 <label className="flex items-center gap-2 text-xs font-medium text-gray-500 dark:text-gray-400 mb-1.5">
@@ -157,7 +157,7 @@ export default function ManageMenu() {
                     setMeals((prev) => ({ ...prev, [meal]: e.target.value }))
                   }
                   placeholder="e.g. Dal, Rice, Roti, Salad"
-                  className="w-full px-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-white/5 text-sm text-[#083067] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#083067]/20 placeholder-gray-300 dark:placeholder-gray-600"
+                  className="w-full px-4 py-3 rounded-xl border border-gray-200 dark:border-gray-600 bg-gray-50 dark:bg-white/5 text-sm text-[#083067] dark:text-white focus:outline-none focus:ring-2 focus:ring-[#083067]/20 placeholder-gray-300 dark:placeholder-gray-600"
                 />
                 <p className="text-[10px] text-gray-300 dark:text-gray-600 mt-1">
                   Separate items with commas
@@ -181,7 +181,7 @@ export default function ManageMenu() {
         <button
           onClick={handleSave}
           disabled={submitting}
-          className="w-full py-3 bg-[#083067] hover:bg-[#0a3d80] text-white text-sm font-semibold rounded-xl transition-colors disabled:opacity-60 flex items-center justify-center gap-2"
+          className="w-full py-3 lg:py-3.5 bg-[#083067] hover:bg-[#0a3d80] text-white text-sm font-semibold rounded-xl transition-colors disabled:opacity-60 flex items-center justify-center gap-2"
         >
           <Save className="w-4 h-4" />
           {submitting ? "Saving..." : `Save ${selectedDay.charAt(0) + selectedDay.slice(1).toLowerCase()} Menu`}
