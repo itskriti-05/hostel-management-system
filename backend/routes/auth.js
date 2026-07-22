@@ -8,12 +8,14 @@ const User = require("../models/User");
 router.post("/register", async (req, res) => {
   try {
     const { name, email, password, contactNo } = req.body;
-
+    console.log("reached 1");
     const existingUser = await User.findOne({ email });
     if (existingUser) {
+
       return res.status(400).json({ message: "Email already registered" });
     }
-
+    console.log("reached 2");
+  
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const user = await User.create({
@@ -23,7 +25,8 @@ router.post("/register", async (req, res) => {
       contactNo,
       role: "ROLE_STUDENT",
     });
-
+    console.log("reached 3");
+    
     const token = jwt.sign(
       { id: user._id, role: user.role },
       process.env.JWT_SECRET,
