@@ -13,7 +13,11 @@ connectDB();
 const app = express();
 
 
-app.use(cors({ origin: "*", credentials: true }));
+app.use(cors({
+  origin: "https://hostelezz-frontend.vercel.app",
+  credentials: true
+}));
+
 app.use(express.json());
 
 // Routes (we'll add these one by one)

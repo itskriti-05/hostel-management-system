@@ -31,7 +31,7 @@ export default function SideBar() {
       {/* Logo */}
       <div className="px-5 py-5 border-b border-gray-100 dark:border-gray-700">
         <div
-          onClick={() => navigate("/warden-dashboard")}
+          onClick={() => navigate("/student-dashboard")}
           className="flex items-center gap-2 cursor-pointer"
         >
           <img
