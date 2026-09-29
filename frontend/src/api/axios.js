@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: "https://hostel-management-system-7mud.onrender.com/",
+  baseURL: "https://hostelezz-backend.onrender.com",
   headers: {
     "Content-Type": "application/json",
   },
@@ -9,7 +9,7 @@ const api = axios.create({
 
 
 api.interceptors.request.use((config) => {
-  const user = localStorage.getItem('user');
+     const user = localStorage.getItem('user');
   if (user) {
     const { token } = JSON.parse(user);
     if (token) {
